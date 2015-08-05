@@ -1,4 +1,4 @@
-# Project Name #
+PoliViz
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > PoliViz
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > For voters looking for insights on politicians.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > PoliViz seeks to provide transparency on politician voting patterns and how donations and funding influences votes.  
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > Information is dispersed, boring, and tedious.  Many users find it difficult to sift through data.  Voter apathy is a large problem in the United States.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > PoliViz engages users in an exciting way through the use of data visualization and graphics.  The data will be presented in a clear and concise format.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Elections belong to the people, it's their decision" - Honest Abe
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Go to site, click link, search for politician, look at graph.  
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "I try to learn from the past, but I plan for the future by focusing exclusively on the present, that's where the fun is." - Donald Trump
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Check out our website.
