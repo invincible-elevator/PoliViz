@@ -4,9 +4,9 @@
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Linus Meyer-Teruel
+  - __Scrum Master__: Chris Tsang
+  - __Development Team Members__: Kate Cobb, Kevin Egami
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@
 ## Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
+- Express
 - Postgresql 9.1.x
 - etc
 - etc
