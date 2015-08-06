@@ -1,4 +1,4 @@
-var dataSets = require('./dataSets.js');
+var database = require('./databaseInteractor.js');
 
 /* --------------------------------------------
  * dataSetsController.js
@@ -14,9 +14,10 @@ var dataSets = require('./dataSets.js');
  * This function handles requests to add a dataset to the dataSets collection.
 */
 var addDataSet = function(req, res, next){
+	var collectionName = req.url.split('/')[1];
 	var data = req.body.data;
-	var dataSetName = req.body.dataSetName;
-	dataSets.addDataSet(data, dataSetName, function(resp){
+	var name = req.body.name;
+	database.addDataSet(collectionName, data, name, function(resp){
 		res.send(200, resp);
 	});
 };
@@ -28,10 +29,11 @@ var addDataSet = function(req, res, next){
  * been able to test this function fully so I'm not sure it works exactly as planned
 */
 var updateDataSet = function(req, res, next){
+	var collectionName = req.url.split('/')[1];
 	var data = req.body.data;
-	var dataSetName = req.body.dataSetName;
-	console.log(data, dataSetName);
-	dataSets.updateDataSet(data, dataSetName, function(resp){
+	var name = req.body.name;
+	console.log(data, name);
+	database.updateDataSet(collectionName, data, name, function(resp){
 		res.send(200, resp);
 	});
 };
@@ -39,11 +41,13 @@ var updateDataSet = function(req, res, next){
 /* function: findDataSet
  * ----------------------------
  * This function handles requests to find one dataset from the dataSets collection.
- * This acts on the second element of the url /dataSet/:dataSetName
+ * This acts on the second element of the url /dataSet/:name
 */
 var findDataSet = function(req, res, next){
-	var dataSetName = req.url.split('/')[2];
-	dataSets.findDataSet(dataSetName, function(resp){
+	var collectionName = req.url.split('/')[1];
+	var name = req.url.split('/')[2];
+	console.log(collectionName, name);
+	database.findDataSet(collectionName, name, function(resp){
 		res.send(200, resp);
 	});
 };
@@ -53,7 +57,8 @@ var findDataSet = function(req, res, next){
  * This function clears out the data from the collection. It should be removed before deployment
 */
 var clearCollection = function(req, res, next){
-	dataSets.clearCollection(function(resp){
+	var collectionName = req.url.split('/')[1];
+	database.clearCollection(collectionName, function(resp){
 		res.send(200, resp);
 	});
 };
@@ -61,11 +66,12 @@ var clearCollection = function(req, res, next){
 /* function: removeFromCollection
  * ------------------------------
  * This function removes dataSets from the collection. It acts on 3rd portion
- * of the url /dataSets/clear/:dataSetName. 
+ * of the url /dataSets/clear/:name. 
 */
 var removeFromCollection = function(req,res, next){
-	var dataSetName = req.url.split('/')[3];
-	dataSets.removeFromCollection(dataSetName, function(resp){
+	var collectionName = req.url.split('/')[1];
+	var name = req.url.split('/')[3];
+	database.removeFromCollection(collectionName, name, function(resp){
 		res.send(200);
 	});
 };

@@ -1,6 +1,12 @@
 var monk = require('monk');
 var db = monk(process.env.CUSTOMCONNSTR_MONGOLAB_URI||'localhost/db');
-var dataSets = db.get('dataSets');
+
+//This holds connections for all the current collections
+var collections = {
+	dataSets: db.get('dataSets'),
+	politicians: db.get('politicians')
+};
+
 
 
 /* ----------------------------------------------------
@@ -13,16 +19,24 @@ var dataSets = db.get('dataSets');
  */
 
 
-
+/* function: chooseCollection
+ * --------------------------
+ * This function takes in the name of the collection and returns a connection 
+ * that collection. 
+*/
+var chooseCollection = function(collectionName){
+	return collections[collectionName];
+};
 
 /* function: addDataSet
  * --------------------
  * This function takes in a data set, a name for it, and a callback. It then stores
  * the data in the dataSets collection using that name as a reference. Later I might modify
- * it so that the dataSetName is actually indexed for faster lookup time
+ * it so that the name is actually indexed for faster lookup time
 */
-var addDataSet = function(data, dataSetName , callback){
-	dataSets.insert({dataSetName: dataSetName, data: data}, function(err, resp){
+var addDataSet = function(collectionName, data, name , callback){
+	var collection = chooseCollection(collectionName);
+	collection.insert({name: name, data: data}, function(err, resp){
 		if(err){
 			callback(false);
 		} else {
@@ -36,8 +50,9 @@ var addDataSet = function(data, dataSetName , callback){
  * This function allows for the updating of an entry in the collection. It requires the new data, 
  * the data set name, and a callback which is called once the item has been updated. 
 */
-var updateDataSet = function(data, dataSetName, callback){
-	dataSets.update({dataSet: dataSetName}, {dataSetName: dataSetName, data: data}, function(err, resp){
+var updateDataSet = function(collectionName, data, name, callback){
+	var collection = chooseCollection(collectionName);
+	collection.update({name: name}, {name: name, data: data}, function(err, resp){
 		callback(resp);
 	});
 };
@@ -48,8 +63,9 @@ var updateDataSet = function(data, dataSetName, callback){
  * This function takes in the name of the dataset and a callback. It then finds the item in the
  * database and calls the callback on the data given as a response. 
 */
-var findDataSet = function(dataSetName, callback){
-	dataSets.find({dataSetName: dataSetName}, function (err, resp){
+var findDataSet = function(collectionName, name, callback){
+	var collection = chooseCollection(collectionName);
+	collection.find({name: name}, function (err, resp){
 		callback(resp);
 	});
 };
@@ -59,19 +75,21 @@ var findDataSet = function(dataSetName, callback){
  * This function will allow the dataSet collection to be cleared. It will mainly be used
  * in development and should be removed before it is released. 
 */
-var clearCollection = function(callback){
-	dataSets.remove({}, function(err, resp){
+var clearCollection = function(collectionName, callback){
+	var collection = chooseCollection(collectionName);
+	collection.remove({}, function(err, resp){
 		callback(resp);
 	});
 };
 
 /* function: removeFromCollection
  * ------------------------------
- * This function removes an item designated by the dataSetName from the collection
+ * This function removes an item designated by the name from the collection
  * and calls the callback upon completion
 */
-var removeFromCollection = function(dataSetName, callback){
-	dataSets.remove({dataSetName:dataSetName}, function(err, resp){
+var removeFromCollection = function(collectionName, name, callback){
+	var collection = chooseCollection(collectionName);
+	collection.remove({name:name}, function(err, resp){
 		callback(resp);	
 	});
 };
