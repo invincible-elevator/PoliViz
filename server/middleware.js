@@ -1,6 +1,6 @@
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var dataSets = require('./db/dataSetsController.js');
+var databaseController = require('./db/databaseController.js');
 
 module.exports = function(app, express){
 
@@ -14,16 +14,16 @@ module.exports = function(app, express){
 	app.use(express.static(__dirname + '/../public'));
 
 	//Database Requests for dataSets
-	app.get('/dataSets/:name', dataSets.findDataSet);
-	app.post('/dataSets', dataSets.addDataSet);
-	app.post('/dataSets/clear', dataSets.clearCollection);
-	app.post('/dataSets/:name', dataSets.updateDataSet);
+	app.get('/dataSets/:name', databaseController.findDataSet);
+	app.post('/dataSets', databaseController.addDataSet);
+	app.post('/dataSets/clear', databaseController.clearCollection);
+	app.post('/dataSets/:name', databaseController.updateDataSet);
 
 
 	//Database Request for politicians 
-	app.get('/dataSets/:name', dataSets.findDataSet);
-	app.post('/dataSets', dataSets.addDataSet);
-	app.post('/dataSets/clear', dataSets.clearCollection);
-	app.post('/dataSets/:name', dataSets.updateDataSet);
+	app.get('/politicians/:name', databaseController.findDataSet);
+	app.post('/politicians', databaseController.addDataSet);
+	app.post('/politicians/clear', databaseController.clearCollection);
+	app.post('/politicians/:name', databaseController.updateDataSet);
 
 };

@@ -58,7 +58,7 @@ var findDataSet = function(req, res, next){
 */
 var clearCollection = function(req, res, next){
 	var collectionName = req.url.split('/')[1];
-	dataSets.clearCollection(collectionName, function(resp){
+	database.clearCollection(collectionName, function(resp){
 		res.send(200, resp);
 	});
 };
