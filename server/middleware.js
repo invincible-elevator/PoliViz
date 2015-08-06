@@ -13,7 +13,14 @@ module.exports = function(app, express){
 	//Serves the public directory to the user
 	app.use(express.static(__dirname + '/../public'));
 
-	//Database Requests
+	//Database Requests for dataSets
+	app.get('/dataSets/:name', dataSets.findDataSet);
+	app.post('/dataSets', dataSets.addDataSet);
+	app.post('/dataSets/clear', dataSets.clearCollection);
+	app.post('/dataSets/:name', dataSets.updateDataSet);
+
+
+	//Database Request for politicians 
 	app.get('/dataSets/:name', dataSets.findDataSet);
 	app.post('/dataSets', dataSets.addDataSet);
 	app.post('/dataSets/clear', dataSets.clearCollection);
