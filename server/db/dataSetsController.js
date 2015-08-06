@@ -67,7 +67,7 @@ var removeFromCollection = function(req,res, next){
 	var dataSetName = req.url.split('/')[3];
 	dataSets.removeFromCollection(dataSetName, function(resp){
 		res.send(200);
-	}):
+	});
 };
 
 module.exports = {
