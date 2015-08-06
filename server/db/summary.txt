@@ -1,0 +1,56 @@
+Summary
+-------
+
+This folder handles the interactions with the database. It currently allows for
+read, write, update, and remove functions to be used on the dataSets collection.
+The database we use is the mongodb basic database without any ORM.  
+
+The dataSets collection stores the large chunks of data that we pull from the
+various politiical data APIs. Each document has a dataSetName and data. The 
+can be accessed and updated by their dataSetName.
+
+-----------------------------------------------------------------------------
+dataSets.js Exported Functions
+-----------------------------------------------------------------------------
+
+addDataSet(data, dataSetName, callback)-----------------------------
+	This function takes in data and dataSetName that you wish to add to the
+	database. It then executes the callback upon the data being succesfuly
+	stored in the database. 
+
+updateDataSet(data, dataSetName, callback)--------------------------
+	This function allows dataSets to be replaced with new data. This function
+	will execute the callback once the data has been successfuly replaced. 
+
+findDataSet(dataSetName, callback)----------------------------------
+	This function searches the database for data matching the given dataSetName.
+	It will call the callback once completed with all the data provided as the
+	first argument.
+	
+clearCollection(callback)-------------------------------------------
+	This function is meant primarily for development. It clears out the 
+	dataSets collection when invoked. 
+
+
+
+
+--------------------------------------------------------------------------------
+dataSetsController.js Exported Functions
+--------------------------------------------------------------------------------
+
+addDataSet(req,res,next)---------------------------------------------
+	This middleware acts on POST requests on /dataSets and adds the new dataSet
+	to the collection using addDataSet in dataSets.js
+	
+updateDataSet(req,res,next)------------------------------------------
+	This middleware acts on POST requests to /dataSets/:dataSetName and 
+	replaces the old dataSet in the collection using updateDataSet in dataSets.
+	js
+
+findDataSet(req,res,next)--------------------------------------------
+	This middleware acts on GET requests to /dataSets and returns the dataSet 
+	from the collection using findDataSet in dataSets.js
+
+clearCollection(req,res,next)----------------------------------------
+	This middleware acts on POST requests to /dataSets/clearand removes all the 
+	dataSets from the collection using clearCollection in dataSets.js
