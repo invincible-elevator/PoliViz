@@ -1,4 +1,6 @@
 var database = require('./databaseInteractor.js');
+var request = require('request');
+var dbFilter = require('./databaseFilter.js')
 
 /* --------------------------------------------
  * dataSetsController.js
@@ -32,7 +34,6 @@ var updateDataSet = function(req, res, next){
 	var collectionName = req.url.split('/')[1];
 	var data = req.body.data;
 	var name = req.body.name;
-	console.log(data, name);
 	database.updateDataSet(collectionName, data, name, function(resp){
 		res.send(200, resp);
 	});
@@ -46,10 +47,9 @@ var updateDataSet = function(req, res, next){
 var findDataSet = function(req, res, next){
 	var collectionName = req.url.split('/')[1];
 	var name = req.url.split('/')[2];
-	console.log(collectionName, name);
-	database.findDataSet(collectionName, name, function(resp){
-		res.send(200, resp);
-	});
+	var firstName = name.split('_')[0];
+	var lastName = name.split('_')[1];
+	dbFilter.databaseFilter(collectionName, name, firstName, lastName, req, res);
 };
 
 /* function: clearCollection 
