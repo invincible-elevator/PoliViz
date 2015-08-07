@@ -4,7 +4,8 @@ var db = monk(process.env.CUSTOMCONNSTR_MONGOLAB_URI||'localhost/db');
 //This holds connections for all the current collections
 var collections = {
 	dataSets: db.get('dataSets'),
-	politicians: db.get('politicians')
+	politicians: db.get('politicians'),
+	politifactList: db.get('politifactList')
 };
 
 
@@ -66,7 +67,11 @@ var updateDataSet = function(collectionName, data, name, callback){
 var findDataSet = function(collectionName, name, callback){
 	var collection = chooseCollection(collectionName);
 	collection.find({name: name}, function (err, resp){
-		callback(resp);
+		if(resp.length === 0){
+			callback(false);
+		} else {
+			callback(resp);
+		}
 	});
 };
 
@@ -100,6 +105,7 @@ var removeFromCollection = function(collectionName, name, callback){
  * allow them to be accessed. 
 */
 module.exports = {
+	chooseCollection: chooseCollection,
 	findDataSet: findDataSet,
 	clearCollection: clearCollection,
 	addDataSet: addDataSet,
