@@ -10,8 +10,9 @@
     "client/lib"
   ],
   "dependencies": {
-    "react": "~0.13.3",
-    "underscore": "~1.8.3",
-    "d3": "~3.5.6"
+    "d3": "~3.5.6",
+    "angular": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-route": "~1.4.3"
   }
 }
