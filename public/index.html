@@ -1,16 +1,30 @@
 <!DOCTYPE HTML> 
 <html> 
   <head> 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-    <script src="./lib/react/react.min.js"></script>
-    <script src="./lib/underscore/underscore-min.js"></script>
+    <script src="./lib/angular/angular.min.js"></script>
+    <script src="./lib/angular-bootstrap/ui-bootstrap.min.js"></script>
+
+    <script src="./lib/angular-route/angular-route.min.js"></script>
+    <script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="./lib/d3/d3.min.js"></script>
-  </head>
-<body> 
-  <div id="main">
-  
+    <script src="./App.js"></script>
+    <script src="./services.js"></script>
+    <script src="./committee/committeeController.js"></script>
+    <script src="./homepage/homepageController.js"></script>
 
-  </div>
+  </head>
+<body ng-app='app'> 
+  <nav class="navbar navbar-default " ng-controller='AppController'>
+  	<a href="#/homepage"><span>Homepage</span></a>
+  	<a href="#/committee"><span>Committee</span></a>
+    <form name='searchForm' ng-submit='getPolitician()'>
+    	<input type="text" ng-model="search" placeholder="search politicians"/>
+      <button class='btn btn-sm'>Search</button>
+    </form>
+  </nav>
+  <div ui-view></div>
+
 </body>
 </html> 
