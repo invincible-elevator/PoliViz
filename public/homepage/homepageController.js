@@ -4,16 +4,20 @@ angular.module('poliviz.homepageController', [])
   $scope.data = [];
 
   $scope.getPolitician = function(){
-    console.log($scope.firstName + ' ' +$scope.lastName);
-  };
-
-  $scope.getData = function() {
-    dataSets.getdataSets('test')
-      .then(function(data) {
-        $scope.data = data;
-        console.log(data);
+    var name = $scope.firstName + '_' + $scope.lastName;
+    dataSets.getdataSets(name)
+      .then(function(data){
+        $scope.data = data[0].data;
       });
   };
+
+  // $scope.getData = function() {
+  //   dataSets.getdataSets('test')
+  //     .then(function(data) {
+  //       $scope.data = data;
+  //       console.log(data);
+  //     });
+  // };
 
   // $scope.getData();
 })
