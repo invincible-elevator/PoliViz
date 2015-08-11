@@ -26,18 +26,6 @@
     <script src="./homepage/homepageController.js"></script>
 
   </head>
-<body ng-app='app'> 
-  <nav class="navbar navbar-default " ng-controller='AppController'>
-  	<a href="#/homepage"><span>Homepage</span></a>
-  	<a href="#/committee"><span>Committee</span></a>
-    <form name='searchForm' ng-submit='getPolitician()'>
-    	<input type="text" ng-model="search" placeholder="search politicians"/>
-      <button class='btn btn-sm'>Search</button>
-    </form>
-  </nav>
-  <div ui-view></div>
-
-</body>
 
     <title ng-bind="$state.current.name + ' - poliviz'">PoliViz</title>
 

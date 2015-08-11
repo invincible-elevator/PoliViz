@@ -136,4 +136,3 @@ angular.module('poliviz.homepageController', [])
     }
   };
 });
->>>>>>> (feat) Add D3 bubble chart to homepage/politican search view

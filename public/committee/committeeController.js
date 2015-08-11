@@ -4,8 +4,6 @@ angular.module('poliviz.committeeController', [])
 
 })
 
-
-
 .directive("myChart", function($window) {
   return{
     restrict: "EA",
