@@ -3,7 +3,8 @@ angular.module('poliviz', [
 	'ui.bootstrap',
 	'poliviz.committeeController',
 	'poliviz.homepageController',
-	'poliviz.services'
+	'poliviz.services',
+	'ngSanitize'
 ])
 
 .config(function($urlRouterProvider, $stateProvider, $httpProvider){

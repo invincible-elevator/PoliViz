@@ -15,6 +15,7 @@
     "angular-ui-router": "~0.2.15",
     "angular-route": "~1.4.3",
     "angular-bootstrap": "~0.13.3",
-    "angular-animate": "~1.4.3"
+    "angular-animate": "~1.4.3",
+    "angular-sanitize": "~1.4.3"
   }
 }
