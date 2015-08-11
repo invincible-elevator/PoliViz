@@ -1,0 +1,90 @@
+
+.slide.ng-leave {
+  position: relative;
+}
+.slide.ng-enter {
+  position: absolute;
+}
+.slide.ng-enter, .slide.ng-leave {
+  -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
+     -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
+       -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
+          transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+.slide.ng-enter, .slide.ng-leave.ng-leave-active {
+  -webkit-transform: scaleX(0.0001);
+       -o-transform: scaleX(0.0001);
+          transform: scaleX(0.0001);
+  opacity: 0;
+}
+.slide, .slide.ng-enter.ng-enter-active {
+  -webkit-transform: scaleX(1);
+       -o-transform: scaleX(1);
+          transform: scaleX(1);
+  opacity: 1;
+}
+
+
+
+h1 {
+ font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif;   
+}
+
+.center {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif; 
+  margin: auto;
+}
+
+.form-inline{
+  width: 580px;
+}
+
+.chart {
+  width: 500px;
+}
+/*bubble colors */
+
+.true {
+  fill: #3FD166;
+}
+
+.mostly-true {
+  fill: #8EDB1A;
+}
+
+.false {
+  fill: #DE3D1D;
+}
+
+.pants-fire {
+  fill: #FF0000;
+}
+
+.no-flip {
+  fill: #45B29D;
+}
+
+.half-flip {
+  fill: #45B29D;
+}
+
+.barely-true {
+  fill: #F2BA11;
+}
+
+.full-flop {
+  fill: #EBF211;
+}
+
+.half-true {
+  fill: #2CDBAA;
+}
+
+text {
+  z-index: 10;
+}
+
+circle {
+  z-index: 1;
+  opacity: 0.5;
+}

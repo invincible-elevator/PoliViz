@@ -1,7 +1,24 @@
 <div>
-	<h2> Map Data </h2>
-	<div> Special Directive Part here</div>
-
-	<div myChart> </div>
-	<p>This part explains some stuff</p>
+  <!-- navbar directive -->
+  <nav-bar></nav-bar>
+  <!-- input form for search -->
+  <form class="form-inline center" name='searchForm' ng-submit='getPolitician()'>
+    <div class="form-group">
+      <label for="exampleInputFirstName">First Name</label>
+      <input type="text" class="form-control" ng-model="firstName" placeholder="ex. Barack" />
+    </div>
+    <div class="form-group">
+      <label for="exampleInptLastName"> Last Name</label>
+      <input type="text" class="form-control" ng-model="lastName" placeholder="ex. Obama" />
+    </div>
+    <button type="submit" class="btn btn-default">Search</button>
+  </form>
+  <!-- display name of current polician -->
+  <h2> {{data.name}} </h2>
+  <!-- display bubble chart -->
+  <div class='center chart'>
+    <bubble-chart></bubble-chart>
+  </div>
+  <!-- display top five quotes/statements -->
+  <p>This part explains some stuff</p>
 </div>

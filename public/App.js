@@ -1,18 +1,17 @@
-angular.module('app', [
+angular.module('poliviz', [
 	'ui.router',
-	'ngRoute',
 	'ui.bootstrap',
 	'poliviz.committeeController',
-	'poliviz.homepageController', 
+	'poliviz.homepageController',
 	'poliviz.services'
 ])
 
 .config(function($urlRouterProvider, $stateProvider, $httpProvider){
-	$urlRouterProvider.otherwise("/homepage");
+	$urlRouterProvider.otherwise("/");
 
 	$stateProvider
 		.state('homepage',{
-			url: '/homepage',
+			url: '/',
 			templateUrl: './homepage/homepageTemplate.html',
 			controller: 'homepageController'
 		})
@@ -24,9 +23,14 @@ angular.module('app', [
 
 })
 
-
 .controller('AppController', function($scope){
-	$scope.getPolitician = function(){
-		console.log($scope.search);
+	
+})
+
+.directive('navBar', function(){
+	return {
+		restrict: 'E',
+		// controller: 'AppController',
+		templateUrl: '/navbar/navbar.html'
 	};
 });
