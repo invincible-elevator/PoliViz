@@ -21,4 +21,15 @@
   </div>
   <!-- display top five quotes/statements -->
   <p>This part explains some stuff</p>
+  <ul ng-show="data.pantsFireQuotes.length > 0">
+    <lh>Pants on Fire!</lh>
+    <li ng-repeat="quote in data.pantsFireQuotes" ng-bind-html="quote"></li>
+  </ul>
+
+  <ul ng-show="data.fullFlopQuotes.length > 0">
+    <lh>Flip Flopper!</lh>
+    <li ng-repeat="quote in data.fullFlopQuotes" ng-bind-html="quote"></li>
+  </ul>
+
+
 </div>
