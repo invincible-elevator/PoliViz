@@ -24,15 +24,20 @@
   opacity: 1;
 }
 
-
-
-h1 {
+h1 lh{
  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif;   
+}
+
+lh {
+  font-size: 1.5em;
+  padding: 20px 0;
+  display: block;
 }
 
 .center {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif; 
-  margin: auto;
+  margin: 0 auto;
+  float: none;
 }
 
 .form-inline{
@@ -40,7 +45,12 @@ h1 {
 }
 
 .chart {
-  width: 500px;
+  width: 700px;
+}
+
+.quotes {
+  margin: 50px auto;
+  padding: 0 100px 0 0;
 }
 /*bubble colors */
 

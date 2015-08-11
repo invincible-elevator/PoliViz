@@ -16,20 +16,24 @@
   <!-- display name of current polician -->
   <h2> {{data.name}} </h2>
   <!-- display bubble chart -->
-  <div class='center chart'>
-    <bubble-chart></bubble-chart>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="center-block chart center">
+          <bubble-chart></bubble-chart>
+        </div>
+      </div>
+      <!-- display top five quotes/statements -->
+      <div class="col-md-5 quotes">
+        <ul ng-show="data.pantsFireQuotes.length > 0">
+          <lh>Pants on Fire! Quotes</lh>
+          <li ng-repeat="quote in data.pantsFireQuotes" ng-bind-html="quote"></li>
+        </ul>
+        <ul ng-show="data.fullFlopQuotes.length > 0">
+          <lh>Flip Flopper! Statements</lh>
+          <li ng-repeat="quote in data.fullFlopQuotes" ng-bind-html="quote"></li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <!-- display top five quotes/statements -->
-  <p>This part explains some stuff</p>
-  <ul ng-show="data.pantsFireQuotes.length > 0">
-    <lh>Pants on Fire!</lh>
-    <li ng-repeat="quote in data.pantsFireQuotes" ng-bind-html="quote"></li>
-  </ul>
-
-  <ul ng-show="data.fullFlopQuotes.length > 0">
-    <lh>Flip Flopper!</lh>
-    <li ng-repeat="quote in data.fullFlopQuotes" ng-bind-html="quote"></li>
-  </ul>
-
-
 </div>
