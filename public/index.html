@@ -1,15 +1,26 @@
-<!DOCTYPE HTML> 
-<html> 
-  <head> 
+<!DOCTYPE HTML>
+<html ng-app='poliviz'>
+
+  <head>
+
+    <!-- include bootstrap for styling-->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
 
+    <!-- Include angular.min.js, angular-animate.js and angular-ui-router.js-->
     <script src="./lib/angular/angular.min.js"></script>
-    <script src="./lib/angular-bootstrap/ui-bootstrap.min.js"></script>
-
-    <script src="./lib/angular-route/angular-route.min.js"></script>
     <script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="./lib/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="./lib/angular-animate/angular-animate.min.js"></script>
+
+    <!-- include d3.min.js -->
     <script src="./lib/d3/d3.min.js"></script>
+
+    <!-- include ui-bootstrap.min.js -->
+
+
     <script src="./App.js"></script>
+    <!-- define services for use by the app module.-->
     <script src="./services.js"></script>
     <script src="./committee/committeeController.js"></script>
     <script src="./homepage/homepageController.js"></script>
@@ -27,4 +38,15 @@
   <div ui-view></div>
 
 </body>
+
+    <title ng-bind="$state.current.name + ' - poliviz'">PoliViz</title>
+
+  </head>
+
+  <body>
+
+    <div ui-view></div>
+
+  </body>
+
 </html> 
