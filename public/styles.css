@@ -1,37 +1,40 @@
-
-.slide.ng-leave {
-  position: relative;
-}
-.slide.ng-enter {
-  position: absolute;
-}
-.slide.ng-enter, .slide.ng-leave {
-  -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
-     -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
-       -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
-          transition: transform 0.3s ease-in, opacity 0.3s ease-in;
-}
-.slide.ng-enter, .slide.ng-leave.ng-leave-active {
-  -webkit-transform: scaleX(0.0001);
-       -o-transform: scaleX(0.0001);
-          transform: scaleX(0.0001);
-  opacity: 0;
-}
-.slide, .slide.ng-enter.ng-enter-active {
-  -webkit-transform: scaleX(1);
-       -o-transform: scaleX(1);
-          transform: scaleX(1);
-  opacity: 1;
+/*.show-hide {
+  padding:10px;
+  border:1px solid black;
+  background:white;
 }
 
-h1 lh{
+.show-hide {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.show-hide.ng-hide {
+  opacity:0;
+}
+*/
+
+h1{
  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif;   
+}
+
+ul {
+  padding-bottom: 20px;
+}
+
+lh,.list {
+  font-family: 'Fanwood Text', serif;
+  font-size: 1.2em;
 }
 
 lh {
   font-size: 1.5em;
   padding: 20px 0;
   display: block;
+}
+
+.list {
+  padding: 0 20px 5px 0;
 }
 
 .center {
@@ -46,48 +49,82 @@ lh {
 
 .chart {
   width: 700px;
+  position: fixed;
 }
 
 .quotes {
   margin: 50px auto;
   padding: 0 100px 0 0;
 }
+
+.border {
+  border: 1px #BAC0C2 solid;
+  border-radius: 5px;
+}
+
+/*politifacts chart CSS*/
+
+/*label*/
+
+text {
+  fill: #636363;
+}
+
 /*bubble colors */
 
 .true {
-  fill: #3FD166;
+  fill: #39B500;
+  stroke: #BFBFBF;
 }
 
 .mostly-true {
-  fill: #8EDB1A;
+  fill: #7ACC54;
+  stroke: #BFBFBF;
+}
+
+.half-true {
+  fill: #FFE733;
+  stroke: #BFBFBF;
+}
+
+.barely-true {
+  fill: #ED9B0C;
+  stroke: #BFBFBF;
 }
 
 .false {
   fill: #DE3D1D;
+  stroke: #BFBFBF;
 }
 
 .pants-fire {
   fill: #FF0000;
+  stroke: #BFBFBF;
 }
 
 .no-flip {
-  fill: #45B29D;
+  fill: #3399FF;
+  stroke: #BFBFBF;
 }
 
 .half-flip {
-  fill: #45B29D;
-}
-
-.barely-true {
-  fill: #F2BA11;
+  fill: #BE47F5;
+  stroke: #BFBFBF;
 }
 
 .full-flop {
-  fill: #EBF211;
+  fill: #F257A7;
+  stroke: #BFBFBF;
 }
 
-.half-true {
-  fill: #2CDBAA;
+.has-error {
+  border: 1px solid red;
+}
+
+/*svg related*/
+
+g {
+  cursor: pointer;
 }
 
 text {
@@ -96,5 +133,22 @@ text {
 
 circle {
   z-index: 1;
+  opacity: 0.6; 
+}
+
+.d3-tip {
   opacity: 0.5;
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: white;
+  color: black;
+  border-radius: 4px;
+  border: 1px solid #BFBFBF;
+  width: 300px;
+}
+
+.miniQuote {
+  font-family: 'Fanwood Text', serif;
+  font-size: 1em;
 }
