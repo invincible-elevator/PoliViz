@@ -11,9 +11,11 @@ var databaseFilter = function(collectionName, name, firstName, lastName, req, re
         var politifactDb = database.chooseCollection("politifactList");
         politifactDb.findOne({"last_name":lastName, "first_name": firstName}).on('success', function(doc){
           if (doc === null) {
-            res.status(200).send("Enter Valid Name");
+            console.log('ERROR');
+            res.status(200).send("Error");
           } else {
             nameId = doc.name_slug;
+            console.log(nameId);
             //*****CHANGE FOR PRODUCTION USE******
             //Number of documents returned set to 5.  Change the end of request string n=5 to n=(desired amount)
             request('http://www.politifact.com/api/statements/truth-o-meter/people/' +nameId+ '/json/?n=100', function (error, response, body) {
@@ -22,46 +24,47 @@ var databaseFilter = function(collectionName, name, firstName, lastName, req, re
                 //filter the data before storage and send to client)
                 var filteredData = {
                   rulingMap: [
-                    {"ruling":"true", "value": 0},
-                    {"ruling":"mostly-true", "value": 0},
-                    {"ruling":"false", "value": 0},
-                    {"ruling":"pants-fire", "value": 0},
-                    {"ruling":"no-flip", "value": 0},
-                    {"ruling":"half-flip", "value": 0},
-                    {"ruling":"barely-true", "value": 0},
-                    {"ruling":"full-flop", "value":0},
-                    {"ruling":"half-true", "value": 0}
-                  ],
-                  pantsFireQuotes: [],
-                  fullFlopQuotes:[]
+                    {"ruling":"true", "value": 0, "quotes": []},
+                    {"ruling":"mostly-true", "value": 0, "quotes": []},
+                    {"ruling":"false", "value": 0, "quotes": []},
+                    {"ruling":"pants-fire", "value": 0, "quotes": []},
+                    {"ruling":"no-flip", "value": 0, "quotes": []},
+                    {"ruling":"half-flip", "value": 0, "quotes": []},
+                    {"ruling":"barely-true", "value": 0, "quotes": []},
+                    {"ruling":"full-flop", "value":0, "quotes": []},
+                    {"ruling":"half-true", "value": 0, "quotes": []}
+                  ]
                 };
                 for (var i = 0; i < data.length; i++) {
                   if (data[i].speaker.name_slug === nameId) {
                     if (data[i].ruling.ruling_slug === 'true') {
                       filteredData.rulingMap[0].value++;
+                      filteredData.rulingMap[0].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'mostly-true') {
                       filteredData.rulingMap[1].value++;
+                      filteredData.rulingMap[1].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'false') {
                       filteredData.rulingMap[2].value++;
+                      filteredData.rulingMap[2].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'pants-fire') {
                       filteredData.rulingMap[3].value++;
+                      filteredData.rulingMap[3].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'no-flip') {
                       filteredData.rulingMap[4].value++;
+                      filteredData.rulingMap[4].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'half-flip') {
                       filteredData.rulingMap[5].value++;
+                      filteredData.rulingMap[5].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'barely-true') {
                       filteredData.rulingMap[6].value++;
+                      filteredData.rulingMap[6].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'full-flop') {
                       filteredData.rulingMap[7].value++;
+                      filteredData.rulingMap[7].quotes.push(data[i].statement);
                     } else if (data[i].ruling.ruling_slug === 'half-true') {
                       filteredData.rulingMap[8].value++;
-                    } 
-                  }
-                  if (data[i].ruling.ruling_slug === "pants-fire"  && data[i].speaker.name_slug === nameId) {
-                    filteredData.pantsFireQuotes.push(data[i].statement);
-                  }
-                  if (data[i].ruling.ruling_slug === "full-flop"  && data[i].speaker.name_slug === nameId) {
-                   filteredData.fullFlopQuotes.push(data[i].statement); 
+                      filteredData.rulingMap[8].quotes.push(data[i].statement);
+                    }
                   }
                 }
                 //send to client and store in db
@@ -73,15 +76,14 @@ var databaseFilter = function(collectionName, name, firstName, lastName, req, re
         });
       } else {
         //if in db, send to client
-        res.status(200).send(resp); 
+        res.status(200).send(resp[0].data);
       }
     });
   }
-}
+};
 
 module.exports = {
   databaseFilter: databaseFilter
 };
-
 
 

@@ -18,23 +18,24 @@ h1{
  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif;   
 }
 
-ul {
-  padding-bottom: 20px;
-}
-
 lh,.list {
   font-family: 'Fanwood Text', serif;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 lh {
-  font-size: 1.5em;
+  font-size: 1.2em;
   padding: 20px 0;
   display: block;
 }
 
+.nav {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 .list {
-  padding: 0 20px 5px 0;
+  padding: 0 30px 0 0px;
 }
 
 .center {
@@ -48,8 +49,12 @@ lh {
 }
 
 .chart {
-  width: 700px;
+  width: 100%;
   position: fixed;
+}
+
+.cont_chart {
+  width: 80%;
 }
 
 .quotes {
@@ -60,6 +65,8 @@ lh {
 .border {
   border: 1px #BAC0C2 solid;
   border-radius: 5px;
+  padding-bottom: 20px;
+  margin: 0 10px 0 20px;
 }
 
 /*politifacts chart CSS*/
