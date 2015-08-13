@@ -10,6 +10,27 @@ various politiical data APIs. Each document has a dataSetName and data. The
 can be accessed and updated by their dataSetName.
 
 -----------------------------------------------------------------------------
+How to Import txt data into SQL database
+-----------------------------------------------------------------------------
+1. CD to DB folder.
+2. Run 'mysql -u root < schema.sql;' from command line.
+3. Run 'mysql --local-infile=1 -u root PoliticalData;'
+4. Import data with 'LOAD DATA LOCAL INFILE '**path to txt file**' INTO TABLE *tablename* 
+FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n';'
+*Note* -- must re-open database connection with step 3 each time.
+
+-----------------------------------------------------------------------------
+SQLController.js Exported Functions
+-----------------------------------------------------------------------------
+init --------------
+	This function initializes the fourth table, 'joinedData', in order to reduce 
+	processing time on join. 
+getContributions(callback) --------------
+	this function returns a table with candidate name and party, committee name, and transaction 
+	amount, ordered by candidate name and lastly committee name. Once data has been retrieved, 
+	the callback will be executed on the data.
+
+-----------------------------------------------------------------------------
 dataSets.js Exported Functions
 -----------------------------------------------------------------------------
 
@@ -30,9 +51,6 @@ findDataSet(dataSetName, callback)----------------------------------
 clearCollection(callback)-------------------------------------------
 	This function is meant primarily for development. It clears out the 
 	dataSets collection when invoked. 
-
-
-
 
 --------------------------------------------------------------------------------
 dataSetsController.js Exported Functions
