@@ -14,7 +14,7 @@ angular.module('poliviz.homepageController', [])
     $scope.reveal = false;
     dataSets.getdataSets(name)
       .then(function(data) {
-        if(data === 'Error') {
+        if (data === 'Error') {
 
         }
 
@@ -59,12 +59,13 @@ angular.module('poliviz.homepageController', [])
 
         // D3 Bubble Chart 
 
-        var height = 600;
+        var height = 500;
         var width = 700;
 
         // helper function to process data and remove any rulings with zero values
         var processData = function(data) {
           for (var i = 0; i < data.length; i++) {
+            data[i].radius = data[i].value;
             if (data[i].value === 0) {
               data.splice(i, 1);
               i--;
@@ -92,7 +93,7 @@ angular.module('poliviz.homepageController', [])
           .offset([-10, 0])
           .html(function(d) {
             console.log(d);
-            return "<h5>Quote Highlight</h5> <div class='miniQuote'>"+d.quotes[0]+"</div>";
+            return "<h5>Quote Highlight</h5> <div class='miniQuote'>" + d.quotes[0] + "</div>";
           });
 
         // append gnodes to svg div
@@ -105,14 +106,14 @@ angular.module('poliviz.homepageController', [])
         gnodes.call(tip);
         // create layout
         var bubble = d3.layout.pack()
-          .size([width, height])
+          .size([width+30, height+30])
           .value(function(d) {
             return d.value;
           })
           .sort(function(a, b) {
             return -(a.value - b.value);
           })
-          .padding(3);
+          .padding(20);
 
         // generate data with calculated layout values
         var nodes = bubble.nodes(data)
@@ -127,27 +128,21 @@ angular.module('poliviz.homepageController', [])
           });
 
         // append bubbles to gnodes
-        gnodes.append('circle')
-          .attr('r', function(d) {
-            return d.r;
-          })
+        circles = gnodes.append('circle')
+          .attr("r", 0)
           .attr('class', function(d) {
             return d.ruling;
           })
           .attr("stroke", "black")
           .attr("stroke-width", 1);
 
-        // initial animation starting at random location and ending at pack coordinates
-        gnodes.attr("transform", function(d) {
-            return 'translate(' + [Math.random() * width, Math.random() * height] + ')';
-          })
-          .transition()
-          .duration(800)
-          .attr("transform", function(d) {
-            return 'translate(' + [d.x + 50, d.y] + ')';
-          });
+        // transition animation for growing circles
+        circles.transition().duration(800).attr('r', function(d) {
+          return d.r;
+        });
 
         // append bubble lables to gnodes
+
         var labels = gnodes.append('text')
           .attr("dy", ".3em")
           .style("text-anchor", "middle")
@@ -155,21 +150,96 @@ angular.module('poliviz.homepageController', [])
             return d.ruling;
           });
 
-        // animation on mouse hover
+        // force layout 
+        var force;
+        var layout_gravity = -0.119;
+        var damper = 0.1;
+        var center = {
+          x: width / 2,
+          y: height / 2
+        };
+
+        var charge = function(d) {
+          return -Math.pow(d.radius, 2) % 8;
+        };
+
+        var start = function() {
+          force = d3.layout.force()
+            .nodes(data.children)
+            .size([width, height]);
+        };
+
+        // animates towards the center and at the same time repelled by settings
+        var display_group_all = function() {
+          force.gravity(layout_gravity)
+            .charge(charge)
+            .friction(0.8)
+            .on("tick", function(e) {
+               gnodes.each(move_towards_center(e.alpha))
+                     // collision detection in work
+                     // .attr("transform", function(d) {return 'translate(' + [d.x, d.y] + ')';})
+                     // .each(collide(.8))
+                     .attr("transform", function(d) {return 'translate(' + [d.x, d.y] + ')';});
+            });
+          force.start();
+        };
+
+        // moves nodes towards center
+        var move_towards_center = function(alpha) {
+          return function(d) {
+            d.x = d.x + (center.x - d.x) * (damper + 0.02) * alpha;
+            d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
+          };
+        };
+
+        // invoke force layout and move towards center - this is a very subtle animation
+
+        start();
+        display_group_all();
+
+        //collision detection in work
+        // function collide(alpha) {
+        //   var quadtree = d3.geom.quadtree(nodes);
+        //   return function(d) {
+        //     console.log(d);
+        //     var r = d.r,
+        //         nx1 = d.x - r,
+        //         nx2 = d.x + r,
+        //         ny1 = d.y - r,
+        //         ny2 = d.y + r;
+        //     quadtree.visit(function(quad, x1, y1, x2, y2) {
+        //       if (quad.point && (quad.point !== d)) {
+        //         var x = (d.x - quad.point.x)*0.53,
+        //             y = (d.y - quad.point.y)*0.85,
+        //             l = Math.sqrt(x * x + y * y),
+        //             r = d.r*1.1 + quad.point.radius;
+        //         if (l < r) {
+        //           l = (l - r) / l * alpha;
+        //           d.x -= x *= l;
+        //           d.y -= y *= l;
+        //           quad.point.x += x;
+        //           quad.point.y += y;
+        //         }
+        //       }
+        //       return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+        //     });
+        //   };
+        // }
+
+
+        // animation on mouse hover to show top/first quote
         gnodes.on("mouseover", function(d) {
-            d3
             d3.select(this).select('text').transition().duration(800).attr('font-size', '1.3em');
             d3.select(this).select('circle').transition().duration(800).attr('r', function(d) {
-              return d.r * 1.2;
-            })
-              .style('opacity', 1);
-            
+                return d.r * 1.2;
+              })
+              .style('opacity', 0.9);
           })
           .on('mouseout', function() {
             d3.select(this).select('text').transition().duration(800).attr('font-size', '1em');
             d3.select(this).select('circle').transition().duration(800).attr('r', function(d) {
-              return d.r;
-            })
+                return d.r;
+              })
               .style('opacity', 0.6);
           })
           .on('click', function(d) {
@@ -186,6 +256,10 @@ angular.module('poliviz.homepageController', [])
           .on('mouseout', function(d) {
             tip.hide(d);
           });
+
+        // Add force layout
+
+
       });
     }
   };

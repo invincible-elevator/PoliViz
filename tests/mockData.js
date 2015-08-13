@@ -21357,7 +21357,7 @@ politifactDb.insert([
             "party": "Democrat", 
             "party_slug": "democrat"
         }, 
-        "first_name": "Nancy ", 
+        "first_name": "Nancy", 
         "last_name": "Pelosi", 
         "name_slug": "nancy-pelosi", 
         "canonical_photo": "http://static.politifact.com.s3.amazonaws.com:80/mugs%2Fmug-nancypelosi.jpg"
