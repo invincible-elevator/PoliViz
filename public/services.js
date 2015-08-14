@@ -25,4 +25,17 @@ angular.module('poliviz.services', [])
 			})
 		}
 	}
+})
+
+.factory('committeeData', function($http){ 
+	return { 
+		getData: function(){ 
+			return $http ({ 
+				method: 'GET', 
+				url: '/campaignContributions'
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		}
+	}
 });

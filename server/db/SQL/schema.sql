@@ -18,7 +18,7 @@ CREATE TABLE `committees` (
   `ORG_TP` varchar(1),
   `CONNECTED_ORG_NM` varchar(200),
   `CAND_ID` varchar(9), 
-  PRIMARY KEY('CMTE_ID')
+  PRIMARY KEY(`CMTE_ID`)
 
 );
 
@@ -63,7 +63,7 @@ CREATE TABLE `candidate`  (
   `CAND_CITY` varchar(30),
   `CAND_ST` varchar(2),
   `CAND_ZIP` varchar(19), 
-  PRIMARY KEY('CAND_ID')
+  PRIMARY KEY(`CAND_ID`)
 );
 
 CREATE TABLE `joinedData` (
