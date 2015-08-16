@@ -24,7 +24,7 @@ var init = function(){
 
 //gets total contributions for each candidate, ordered by committee name.
 var getContributions = function(callback){
-  var queryString = 'select CAND_NAME, CAND_PTY_AFFILIATION, CMTE_NM, SUM(TRANSACTION_AMT) \
+  var queryString = 'select CAND_NAME, CAND_PTY_AFFILIATION, CMTE_NM, SUM(TRANSACTION_AMT), CAND_OFFICE_ST, CAND_OFFICE \
   FROM joinedData group by CAND_NAME;';
 
   connection.query(queryString, function(err, results){

@@ -1,15 +1,34 @@
 <div>
     <nav-bar></nav-bar>
     <h2> Campaign Contributions 2015 - 2016 </h2>
-    <form class="col-md-3">
+    <form class="col-md-4">
       <select ng-model="partyAffil" class="form-control">
         <option value="ALL">All Party Affiliations</option>
         <option value="REP">Republican</option>
         <option value="DEM">Democrat</option>
         <option value="IND">Independent</option>
       </select>
-      <button ng-click="selectAffiliation()"  class="btn btn-default">Select</button>
+      <button ng-click="selectFilter()"  class="btn btn-default">Select</button>
     </form>
+
+    <form class="col-md-4">
+      <select ng-model="candOffice" class="form-control">
+        <option value="ALL">All Offices</option>
+        <option value="H">House</option>
+        <option value="S">Senate</option>
+        <option value="P">President</option>
+      </select>
+    </form>
+
+    <form class="col-md-4">
+      <select ng-model="candState" class="form-control">
+        <option value="ALL">All states</option>
+        <option value="US">Presidential</option>
+        <option ng-repeat='state in states'>{{state}}</option>
+      </select>
+    </form>
+
+
     <div class="center-block cont_chart center">
         <my-chart></my-chart>
     </div>

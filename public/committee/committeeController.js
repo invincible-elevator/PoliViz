@@ -1,5 +1,8 @@
 angular.module('poliviz.committeeController', [])
 .controller('committeeController', function($scope, committeeData, indCandidateData){
+  //list of abbreviated states
+  $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA","GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
+
   $scope.getData = function() {
     committeeData.getData()
       .then(function(data){
@@ -18,22 +21,32 @@ angular.module('poliviz.committeeController', [])
       });
   };
 
-  //Sets the default select/option to the first one (ALL)
+  //Sets the default select/option
   $scope.partyAffil = 'ALL';
+  $scope.candOffice = 'ALL'
+  $scope.candState = 'ALL'
   //filters the data based on party affiliation
-  $scope.selectAffiliation = function () {
+  $scope.selectFilter = function () {
     committeeData.getData()
       .then(function(data){
-        if ($scope.partyAffil === "ALL") {
-          return $scope.data = data
-        } else {
-          $scope.data = data.filter(function(d){
+        $scope.data = data;
+        if ($scope.partyAffil !== "ALL") {
+          $scope.data = $scope.data.filter(function(d){
             return d.CAND_PTY_AFFILIATION === $scope.partyAffil;
           });
+        } 
+        if ($scope.candOffice !== "ALL") {
+          $scope.data = $scope.data.filter(function(d){
+            return d.CAND_OFFICE === $scope.candOffice;
+          });
         }
-      })
+        if ($scope.candState !== "ALL") {
+          $scope.data = $scope.data.filter(function(d){
+            return d.CAND_OFFICE_ST === $scope.candState;
+          });
+        }
+      });
   };
-
   $scope.getData();
 })
 
