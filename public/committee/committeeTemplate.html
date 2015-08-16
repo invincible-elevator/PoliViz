@@ -1,6 +1,15 @@
 <div>
     <nav-bar></nav-bar>
     <h2> Campaign Contributions 2015 - 2016 </h2>
+    <form class="col-md-3">
+      <select ng-model="partyAffil" class="form-control">
+        <option value="ALL">All Party Affiliations</option>
+        <option value="REP">Republican</option>
+        <option value="DEM">Democrat</option>
+        <option value="IND">Independent</option>
+      </select>
+      <button ng-click="selectAffiliation()"  class="btn btn-default">Select</button>
+    </form>
     <div class="center-block cont_chart center">
         <my-chart></my-chart>
     </div>

@@ -33,8 +33,23 @@ var getContributions = function(callback){
   });
 };
 
+//individual candidate data
+var getCandidateData = function(candName, callback){
+  console.log('test')
+  console.log(candName)
+  var queryString = "select CAND_NAME, CAND_PTY_AFFILIATION, CMTE_NM, TRANSACTION_AMT \
+    FROM joinedData WHERE CAND_NAME = '"+ candName +"' order by CAND_NAME, CMTE_NM;";
+
+  connection.query(queryString, function(err, results){
+    if(err) console.log(err);
+    callback(JSON.stringify(results));
+  });
+};
+
+
+
 
 exports.init = init;
 exports.getContributions = getContributions;
-
+exports.getCandidateData = getCandidateData;
 

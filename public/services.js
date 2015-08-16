@@ -38,4 +38,19 @@ angular.module('poliviz.services', [])
 			})
 		}
 	}
+})
+
+.factory('indCandidateData', function($http){ 
+	return { 
+		getData: function(candName){ 
+			console.log(candName)
+			return $http ({ 
+				method: 'POST', 
+				data: {"candName": candName},
+				url: '/indCandidateData'
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		}
+	}
 });
