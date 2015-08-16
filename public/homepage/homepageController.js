@@ -5,11 +5,11 @@ angular.module('poliviz.homepageController', [])
   $scope.reveal = false;
   $scope.quotes = [];
   $scope.ruling = '';
+  $scope.name = '';
 
   // helper function to return data from API/database
   $scope.getPolitician = function() {
     var name = $scope.firstName + '_' + $scope.lastName;
-
     // hide quotes
     $scope.reveal = false;
     dataSets.getdataSets(name)
@@ -17,7 +17,6 @@ angular.module('poliviz.homepageController', [])
         if (data === 'Error') {
 
         }
-
         $scope.data = data;
         // $scope.name = data[0].name.split('_').join(' ');      
       });
@@ -56,7 +55,6 @@ angular.module('poliviz.homepageController', [])
 
         var d3 = $window.d3;
         var dataset = scope.data.rulingMap;
-
         // D3 Bubble Chart 
 
         var height = 500;
@@ -86,7 +84,8 @@ angular.module('poliviz.homepageController', [])
         // initiate svg
         var svg = d3.select('bubble-chart').append('svg')
           .attr('width', width)
-          .attr('height', height);
+          .attr('height', height)
+          .attr('class', 'center');
 
         var tip = d3.tip()
           .attr('class', 'd3-tip')

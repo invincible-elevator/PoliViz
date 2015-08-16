@@ -1,7 +1,7 @@
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var databaseController = require('./db/Mongo/databaseController.js');
-var SQLController = require('./db/SQL/SQLController.js')
+var SQLController = require('./db/SQL/SQLController.js');
 
 module.exports = function(app, express){
 
@@ -21,7 +21,7 @@ module.exports = function(app, express){
 	app.post('/dataSets/:name', databaseController.updateDataSet);
 
 	//Database Request for committee contributions and individual candidates
-	app.get('/campaignContributions', SQLController.getSummaryData)
-	app.post('/indCandidateData', SQLController.getSummaryDataByName)
+	app.get('/campaignContributions', SQLController.getSummaryData);
+	app.post('/indCandidateData', SQLController.getSummaryDataByName);
 
 };
