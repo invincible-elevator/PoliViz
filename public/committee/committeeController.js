@@ -1,12 +1,39 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, committeeData){
+.controller('committeeController', function($scope, committeeData, indCandidateData){
   $scope.getData = function() {
     committeeData.getData()
       .then(function(data){
        $scope.data = data;
        console.log(data);
-    })
-  }
+    });
+  };
+
+  //gets data for an individual candidate (post request)
+  //callback required, data request takes too long, prevents d3 form manipulating on 0 data, causes error.
+  $scope.indCandidateData = function (candName, callback) {
+    indCandidateData.getData(candName)
+      .then(function(data){
+        $scope.indCandidate = data;
+        callback(data);
+      });
+  };
+
+  //Sets the default select/option to the first one (ALL)
+  $scope.partyAffil = 'ALL';
+  //filters the data based on party affiliation
+  $scope.selectAffiliation = function () {
+    committeeData.getData()
+      .then(function(data){
+        if ($scope.partyAffil === "ALL") {
+          return $scope.data = data
+        } else {
+          $scope.data = data.filter(function(d){
+            return d.CAND_PTY_AFFILIATION === $scope.partyAffil;
+          });
+        }
+      })
+  };
+
   $scope.getData();
 })
 
@@ -15,9 +42,9 @@ angular.module('poliviz.committeeController', [])
     restrict: "EA",
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs){
-      // remove any previous charts
-      d3.selectAll('svg').remove();
-      scope.$watch('data', function(){
+      scope.$watchGroup(['data', 'indCandidateData'], function(){
+        // remove any previous charts
+        d3.selectAll('svg').remove();
         var data = scope.data;
         //sort data, largest to smallest contributions
         data.sort(function(a,b){
@@ -87,7 +114,51 @@ angular.module('poliviz.committeeController', [])
           })
           .on('mouseout', function(d) {
             tip.hide(d);
-          });
+          })
+          .on('click', function(d) {
+          //makes a post request to server and db to find contributions by committee for the candidate 
+            var selectedCandidate = d.CAND_NAME;
+            scope.indCandidateData(selectedCandidate, function(data) {
+              var radius = width / 3
+              var color = d3.scale.ordinal()
+                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+              var arc = d3.svg.arc()
+                  .outerRadius(radius - 10)
+                  .innerRadius(0);
+
+              var pie = d3.layout.pie()
+                  .sort(null)
+                  .value(function(d) { return d.TRANSACTION_AMT;});
+
+              var svg = d3.select("svg").append("svg")
+                  .append("g")
+                  .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+              
+              var g = svg.selectAll(".arc")
+                  .data(pie(scope.indCandidate))
+                  .enter().append("g")
+                  .attr("class", "arc");
+
+              g.append("path")
+                  .attr("d", arc)
+                  .style("fill", function(d) { return color(d.data.CMTE_NM); });
+
+              // g.append("text")
+              //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              //     .attr("dy", ".35em")
+              //     .style("text-anchor", "middle")
+              //     .text(function(d) { return d.data.CMTE_NM; });
+
+              //removes the rows of circles of all candidates
+              
+            });
+            d3.selectAll('circle')
+            .transition().duration(1000)
+            .style('opacity', 0)
+            .remove()
+
+          })
       })
     }
   };

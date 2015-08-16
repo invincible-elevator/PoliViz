@@ -27,7 +27,8 @@ module.exports = function(app, express){
 	app.post('/politicians/clear', databaseController.clearCollection);
 	app.post('/politicians/:name', databaseController.updateDataSet);
 
-	//Database Request for committee contributions
+	//Database Request for committee contributions and individual candidates
 	app.get('/campaignContributions', SQLController.getFinancialData)
+	app.post('/indCandidateData', SQLController.getCandidateData)
 
 };
