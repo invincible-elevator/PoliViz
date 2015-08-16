@@ -53,6 +53,10 @@ lh {
   position: fixed;
 }
 
+.cont_chart {
+  width: 80%;
+}
+
 .quotes {
   margin: 50px auto;
   padding: 0 100px 0 0;
