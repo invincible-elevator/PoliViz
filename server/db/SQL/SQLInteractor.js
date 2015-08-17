@@ -46,10 +46,37 @@ var getCandidateData = function(candName, callback){
   });
 };
 
+//All candidate finance data
+var getCandidateFinanceData = function(callback){ 
+  var queryString = "select CAND_NAME, CAND_PTY_AFFILIATION, TTL_RECEIPTS, TRANS_FROM_AUTH, \
+  TTL_DISB, CAND_CONTRIB, TTL_INDIV_CONTRIB, OTHER_POL_CMTE_CONTRIB, POL_PTY_CONTRIB from CandFinance \
+  order by CAND_NAME;";
+
+  connection.query(queryString, function(err, results){
+    if(err) console.log(err);
+    callback(JSON.stringify(results));
+  });
+};
+
+//candidate finance data by name
+var getCandidateFinanceDataByName = function(candName, callback){ 
+  var queryString = "select CAND_NAME, CAND_PTY_AFFILIATION, TTL_RECEIPTS, TRANS_FROM_AUTH, \
+  TTL_DISB, CAND_CONTRIB, TTL_INDIV_CONTRIB, OTHER_POL_CMTE_CONTRIB, POL_PTY_CONTRIB from CandFinance \
+  where CAND_NAME = '" + candName + "'order by CAND_NAME;";
+
+  connection.query(queryString, function(err, results){
+    if(err) console.log(err);
+    callback(JSON.stringify(results));
+  });
+};
+
 
 
 
 exports.init = init;
 exports.getContributions = getContributions;
 exports.getCandidateData = getCandidateData;
+exports.getCandidateFinanceData = getCandidateFinanceData;
+exports.getCandidateFinanceDataByName = getCandidateFinanceDataByName;
+
 
