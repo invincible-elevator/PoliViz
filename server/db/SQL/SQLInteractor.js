@@ -34,7 +34,7 @@ var getContributions = function(callback){
 };
 
 //individual candidate data
-var getCandidateData = function(candName, callback){
+var getContributionsByName = function(candName, callback){
   console.log('test')
   console.log(candName)
   var queryString = "select CAND_NAME, CAND_PTY_AFFILIATION, CMTE_NM, TRANSACTION_AMT \
@@ -75,7 +75,7 @@ var getCandidateFinanceDataByName = function(candName, callback){
 
 exports.init = init;
 exports.getContributions = getContributions;
-exports.getCandidateData = getCandidateData;
+exports.getContributionsByName = getContributionsByName;
 exports.getCandidateFinanceData = getCandidateFinanceData;
 exports.getCandidateFinanceDataByName = getCandidateFinanceDataByName;
 
