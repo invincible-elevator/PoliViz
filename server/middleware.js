@@ -20,15 +20,8 @@ module.exports = function(app, express){
 	app.post('/dataSets/clear', databaseController.clearCollection);
 	app.post('/dataSets/:name', databaseController.updateDataSet);
 
-
-	//Database Request for politicians 
-	app.get('/politicians/:name', databaseController.findDataSet);
-	app.post('/politicians', databaseController.addDataSet);
-	app.post('/politicians/clear', databaseController.clearCollection);
-	app.post('/politicians/:name', databaseController.updateDataSet);
-
 	//Database Request for committee contributions and individual candidates
-	app.get('/campaignContributions', SQLController.getFinancialData)
-	app.post('/indCandidateData', SQLController.getCandidateData)
+	app.get('/campaignContributions', SQLController.getSummaryData)
+	app.post('/indCandidateData', SQLController.getSummaryDataByName)
 
 };

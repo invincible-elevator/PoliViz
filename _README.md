@@ -27,8 +27,14 @@
 - Node 0.10.x
 - Express
 - Postgresql 9.1.x
-- etc
-- etc
+- Mongo
+- Monk 1.0.1
+- Morgan 1.6.1
+- MySQL 2.8.0
+- Request 2.60.0
+- d3 3.5.6
+- Angular 1.4.3
+
 
 ## Development
 
@@ -43,6 +49,8 @@ bower install
 ```
 
 ### Roadmap
+
+For an explanation of server-side helper functions and database issues, see summary.txt within the server file. 
 
 View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
