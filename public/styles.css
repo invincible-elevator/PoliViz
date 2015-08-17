@@ -26,6 +26,10 @@ lh {
   padding-top: 10px;
 }
 
+.filters {
+  height: 30px;
+}
+
 .nav {
   padding: 10px;
   margin-bottom: 10px;

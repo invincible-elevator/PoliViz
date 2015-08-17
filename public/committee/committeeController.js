@@ -115,11 +115,18 @@ angular.module('poliviz.committeeController', [])
             }
           })
           .attr('r', function(d) { //set max and min bubble size for visual purposes
-            if (Math.abs(d[contribType] / largestContribution * 30) < 5) {
-              return 5;
-            } else {
-              return Math.abs(d[contribType] / largestContribution * 30);
+            var radius = function(value) { 
+              if (value < 50) {
+                value = 50;
+              } 
+              var minp = 1;
+              var maxp = 13;
+              var minv = Math.log(1);
+              var maxv = Math.log(largestContribution);
+              var scale = (maxv-minv) / (maxp-minp);
+              return (Math.log(value)-minv) / scale + minp;
             }
+            return radius(d[contribType])
           })
           .attr('cx', function() {
             return Math.random() * width;
@@ -144,7 +151,8 @@ angular.module('poliviz.committeeController', [])
 
         // Helper function to convert number to display as currency
         var convertCurrency = function(number) {
-          return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          var rounded = Math.round(number)
+          return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         };
 
         // Add tooltips for bubbles
@@ -172,72 +180,7 @@ angular.module('poliviz.committeeController', [])
           })
           .on('mouseout', function(d) {
             tip.hide(d);
-          })
-          .on('click', function(d) {
-            //makes a post request to server and db to find contributions by committee for the candidate 
-            var selectedCandidate = d.CAND_NAME;
-            scope.indCandidateData(selectedCandidate, function(data) {
-              var radius = width / 3;
-              var color = d3.scale.ordinal()
-                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-              var arc = d3.svg.arc()
-                .outerRadius(radius - 10)
-                .innerRadius(radius/3);
-
-              var pie = d3.layout.pie()
-                .sort(null)
-                .value(function(d) {
-                  return d.TRANSACTION_AMT;
-                });
-
-              var svg = d3.select("svg").append("svg")
-                .append("g")
-                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-              var g = svg.selectAll(".arc")
-                .data(pie(scope.indCandidate))
-                .enter().append("g")
-                .attr("class", "arc");
-
-              g.append("path")
-                .attr("d", arc)
-                .style("fill", function(d) {
-                  return color(d.data.CMTE_NM);
-                });
-
-              // g.append("text")
-              //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-              //     .attr("dy", ".35em")
-              //     .style("text-anchor", "middle")
-              //     .text(function(d) { return d.data.CMTE_NM; });
-
-              //removes the rows of circles of all candidates
-            var tip2 = d3.tip()
-              .attr('class', 'd3-tip')
-              .offset([-10, 0])
-              .html(function(d) {
-                return "<h5>" + d.data.CMTE_NM + "</h5>";
-              });
-            
-            d3.selectAll("path").on("mouseover", function(d) {
-                console.log(d);
-                tip2.show(d)
-                  .style('opacity', 0.6);
-              })
-              .on('mouseout', function(d) {
-                tip2.hide(d);
-              });
-
-            });
-            d3.selectAll('circle')
-              .transition().duration(1000)
-              .style('opacity', 0)
-              .remove();
-
           });
-
-
       });
     }
   };

@@ -1,43 +1,45 @@
 <div>
     <nav-bar></nav-bar>
-    <h2> PAC Campaign Contributions 2015 - 2016 </h2>
+    <h2>Campaign Contributions 2015 - 2016 </h2>
+    <div class='filters'>
+      <form class="col-md-3">
+        <select ng-model="contrib" class="form-control" ng-change="selectFilter()">
+          <option value="ALL">Total Contributions</option>
+          <option value="PAC">PAC Contributions</option>
+          <option value="PP">Political Party Contributions</option>
+          <option value="I">Individual Contributions</option>
+          <option value="C">Candidate Contributions</option>
+          <option value="D">Total Disbursements</option>
+        </select>
+      </form>
+    
+      <form class="col-md-3">
+        <select ng-model="partyAffil" class="form-control" ng-change="selectFilter()">
+          <option value="ALL">All Party Affiliations</option>
+          <option value="REP">Republican</option>
+          <option value="DEM">Democrat</option>
+          <option value="IND">Independent</option>
+        </select>
+      </form>
 
-    <form class="col-md-3">
-      <select ng-model="contrib" class="form-control" ng-change="selectFilter()">
-        <option value="ALL">Total Contributions</option>
-        <option value="PAC">PAC Contributions</option>
-        <option value="PP">Political Party Contributions</option>
-        <option value="I">Individual Contributions</option>
-        <option value="C">Candidate Contributions</option>
-        <option value="D">Total Disbursements</option>
-      </select>
-    </form>
-  
-    <form class="col-md-3">
-      <select ng-model="partyAffil" class="form-control" ng-change="selectFilter()">
-        <option value="ALL">All Party Affiliations</option>
-        <option value="REP">Republican</option>
-        <option value="DEM">Democrat</option>
-        <option value="IND">Independent</option>
-      </select>
-    </form>
+      <form class="col-md-3">
+        <select ng-model="candOffice" class="form-control" ng-change="selectFilter()">
+          <option value="ALL">All Offices</option>
+          <option value="H">House</option>
+          <option value="S">Senate</option>
+          <option value="P">President</option>
+        </select>
+      </form>
 
-    <form class="col-md-3">
-      <select ng-model="candOffice" class="form-control" ng-change="selectFilter()">
-        <option value="ALL">All Offices</option>
-        <option value="H">House</option>
-        <option value="S">Senate</option>
-        <option value="P">President</option>
-      </select>
-    </form>
-
-    <form class="col-md-3">
-      <select ng-model="candState" class="form-control" ng-change="selectFilter()">
-        <option value="ALL">All states</option>
-        <option value="00">Presidential</option>
-        <option ng-repeat='state in states'>{{state}}</option>
-      </select>
-    </form>
+      <form class="col-md-3">
+        <select ng-model="candState" class="form-control" ng-change="selectFilter()">
+          <option value="ALL">All states</option>
+          <option value="00">Presidential</option>
+          <option ng-repeat='state in states'>{{state}}</option>
+        </select>
+      </form>
+    </div>
+    <p class='text-center'>Data from fec.gov</p>
 
 
     <div class="center-block cont_chart center">
