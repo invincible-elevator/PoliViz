@@ -1,21 +1,11 @@
-/*.show-hide {
-  padding:10px;
-  border:1px solid black;
-  background:white;
-}
-
-.show-hide {
-  -webkit-transition:all linear 0.5s;
-  transition:all linear 0.5s;
-}
-
-.show-hide.ng-hide {
-  opacity:0;
-}
-*/
 
 h1{
  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Roboto Light", "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", Helvetica, Arial, sans-serif;   
+}
+
+h2{
+  padding: 15px;
+  text-align: center;
 }
 
 lh,.list {
@@ -27,6 +17,13 @@ lh {
   font-size: 1.2em;
   padding: 20px 0;
   display: block;
+}
+
+.text-center {
+  text-align: center;
+  color: #999999;
+  font-size: 0.7em;
+  padding-top: 10px;
 }
 
 .nav {
@@ -49,12 +46,11 @@ lh {
 }
 
 .chart {
-  width: 100%;
-  position: fixed;
+  width: 700px;
 }
 
 .cont_chart {
-  width: 80%;
+  width: 1050px;
 }
 
 .quotes {

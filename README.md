@@ -1,6 +1,8 @@
-# Project Name
+# PoliViz
 
-> Pithy project description
+> Data visualization for politican data:
+  > View 1: Visualized Politifacts data which provides fact checking on statements made by politicians
+  > View 2: Campaign contribution data by politician with filters  
 
 ## Team
 
@@ -25,7 +27,7 @@
 ## Requirements
 
 - Node 0.10.x
-- Express
+- Express 4.13.x
 - Postgresql 9.1.x
 - Mongo
 - Monk 1.0.1
@@ -35,24 +37,27 @@
 - d3 3.5.6
 - Angular 1.4.3
 
-
 ## Development
+
+- Mongo: 0.1.0
+
 
 ### Installing Dependencies
 
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
+npm install -g bower
 npm install
 bower install
 ```
 
 ### Roadmap
 
+
 For an explanation of server-side helper functions and database issues, see summary.txt within the server file. 
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/AztecBananas/PoliViz/issues)
 
 
 ## Contributing
