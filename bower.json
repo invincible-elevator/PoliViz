@@ -1,8 +1,8 @@
 {
   "name": "PoliViz",
-  "version": "0.0.0",
-  "authors": [],
-  "license": "WUT",
+  "version": "2.0.0",
+  "authors": "Shelley Wang, Chris Lockwood, Devon Koch",
+  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",

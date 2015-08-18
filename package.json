@@ -1,6 +1,6 @@
 {
   "name": "poliviz",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "political data visualization",
   "main": "server.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AztecBananas/AztecBananas.git"
+    "url": "https://github.com/invincible-elevator/PoliViz.git"
   },
-  "author": "Kate Cobb, Kevin Egami, Linus Meyer-Teruel, Chris Tsang",
-  "license": "ISC",
+  "author": "Shelley Wang, Chris Lockwood, Devon Koch",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AztecBananas/AztecBananas/issues"
+    "url": "https://waffle.io/invincible-elevator/PoliViz"
   },
-  "homepage": "https://github.com/AztecBananas/AztecBananas#readme",
+  "homepage": "https://github.com/invincible-elevator/PoliViz",
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
