@@ -1,14 +1,15 @@
 # PoliViz
 
-> Data visualization for politican data:
-  > View 1: Visualized Politifacts data which provides fact checking on statements made by politicians
-  > View 2: Campaign contribution data by politician with filters  
+  PoliViz is a political data visualization app focusing on campaign contribution/finance information.
+
+  We want to help voters make informed decisions about political candidates by sharing data in an easy to understand way. 
 
 ## Team
 
-  - __Product Owner__: Linus Meyer-Teruel
-  - __Scrum Master__: Chris Tsang
-  - __Development Team Members__: Kate Cobb, Kevin Egami
+  - __Product Owner__: Shelley Wang ([@shelleywang](https://github.com/shelleywang))
+  - __Scrum Master__: Chris Lockwood ([@knockoutdonkey](https://github.com/knockoutdonkey)), Devon Koch ([@devonkoch](https://github.com/devonkoch))
+
+  Using legacy code from: Linus Meyer-Teruel, Chris Tsang, Kate Cobb, and Kevin Egami
 
 ## Table of Contents
 
@@ -22,7 +23,7 @@
 
 ## Usage
 
-> Some usage instructions
+
 
 ## Requirements
 
@@ -39,9 +40,6 @@
 
 ## Development
 
-- Mongo: 0.1.0
-
-
 ### Installing Dependencies
 
 From within the root directory:
@@ -57,7 +55,7 @@ bower install
 
 For an explanation of server-side helper functions and database issues, see summary.txt within the server file. 
 
-View the project roadmap [here](https://github.com/AztecBananas/PoliViz/issues)
+View the project roadmap [here](https://waffle.io/invincible-elevator/PoliViz)
 
 
 ## Contributing
