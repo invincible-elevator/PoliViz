@@ -87,6 +87,7 @@ CREATE TABLE `joinedData` (
   `CAND_OFFICE`  varchar(1),
   `CAND_OFFICE_ST` varchar(2),
   `CAND_OFFICE_DISTRICT` varchar(2),
+  `CAND_ST` varchar(2),
   `CMTE_ID` varchar(9),
   `CMTE_NM` varchar(200),
   `CMTE_ST` varchar(2),

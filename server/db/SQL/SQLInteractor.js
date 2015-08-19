@@ -82,7 +82,7 @@ var getCandidates = function(callback){
   });
 };
 
-// get committee information
+// get contributor information
 var getContributors = function(callback) {
   var queryString = "select committees.CMTE_ID id, \
                             committees.CMTE_NM committee, \
@@ -99,6 +99,22 @@ var getContributors = function(callback) {
   });
 };
 
+// get individual contributor information
+var getContributorById = function(id, callback) {
+  var queryString = "select CAND_ID id, \
+                            CAND_NAME name, \
+                            CAND_PTY_AFFILIATION party, \
+                            CAND_OFFICE position, \
+                            CMTE_ST state, \
+                            sum(TRANSACTION_AMT) total$ \
+                     from joinedData \
+                     where CMTE_ID = '" + id + "' group by CAND_ID;";
+
+  connection.query(queryString, function(err, results){
+    if(err) console.log(err);
+    callback(JSON.stringify(results));
+  });
+};
 
 module.exports = {
   getContributions : getContributions,
@@ -106,7 +122,8 @@ module.exports = {
   getCandidateFinanceData : getCandidateFinanceData,
   getCandidateFinanceDataByName : getCandidateFinanceDataByName,
   getCandidates : getCandidates,
-  getContributors : getContributors
+  getContributors : getContributors,
+  getContributorById : getContributorById
 };
 
 

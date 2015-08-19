@@ -21,8 +21,9 @@ var getContributors = function(req, res, next) {
 
 var getContributorData = function(req, res, next) {
   var contributorName = req.params.name;
-  res.send('HELLO'+contributorName);
-
+  SQLdb.getContributorById(contributorName, function(results) { 
+    res.send(results);
+  });
 };
 
 var getCandidates = function(req, res, next) {
