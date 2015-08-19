@@ -26,10 +26,10 @@ module.exports = function(app, express){
 
 	// Database Request for committee information 
 	app.get('/contributors', SQLController.getContributors);
-	app.get('/contributors/:name', SQLController.getContributorData);
+	app.get('/contributors/:id', SQLController.getContributorData);
 
 	// Databse Request for candidate information
 	app.get('/candidates', SQLController.getCandidates);
-	app.get('/candidates/:name', SQLController.getCandidateData);
+	app.get('/candidates/:id', SQLController.getCandidateData);
 
 };

@@ -14,13 +14,16 @@ var getSummaryDataByName = function(req, res, next){
 };
 
 var getContributors = function(req, res, next) {
-  res.send('HELLO');
+  SQLdb.getContributors(function(results) { 
+    res.send(results);
+  });
 };
 
 var getContributorData = function(req, res, next) {
-  var contributorName = req.params.name;
-  res.send('HELLO'+contributorName);
-
+  var contributorID = req.params.id;
+  SQLdb.getContributorById(contributorID, function(results) { 
+    res.send(results);
+  });
 };
 
 var getCandidates = function(req, res, next) {
@@ -30,8 +33,8 @@ var getCandidates = function(req, res, next) {
 };
 
 var getCandidateData = function(req, res, next) {
-  var candidateName = req.params.name;
-  SQLdb.getContributionsByName(candidateName, function(results) { 
+  var candidateID = req.params.id;
+  SQLdb.getContributionsByName(candidateID, function(results) { 
     res.send(results);
   });
 };
