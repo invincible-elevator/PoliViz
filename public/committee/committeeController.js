@@ -1,24 +1,17 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, committeeData, indCandidateData){
+.controller('committeeController', function($scope, committeeData, contributorsCandidatesData){
+  
   //list of abbreviated states
-  $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA","GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
-
-  // 
-  $scope.getData = function() {
+  $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA",
+                   "GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA",
+                   "MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND",
+                   "MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT",
+                   "VT","VI","VA","WA","WV","WI","WY"];
+ 
+  var getData = function() {
     committeeData.getData()
       .then(function(data){
-       $scope.data = data;
-       console.log(data);
-    });
-  };
-
-  // gets data for an individual candidate (post request)
-  // callback required, data request takes too long, prevents d3 form manipulating on 0 data, causes error.
-  $scope.indCandidateData = function(candName, callback) {
-    indCandidateData.getData(candName)
-      .then(function(data) {
-        $scope.indCandidate = data;
-        callback(data);
+        $scope.data = data;
       });
   };
 
@@ -54,8 +47,8 @@ angular.module('poliviz.committeeController', [])
           });
         }
       });
-  };
-  $scope.getData();
+    };
+  getData();
 })
 
 //directive for displaying chart
@@ -64,7 +57,7 @@ angular.module('poliviz.committeeController', [])
     restrict: "EA",
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs) {
-      scope.$watchGroup(['data', 'indCandidateData'], function() {
+      scope.$watchGroup(['data'], function() {
         // remove any previous charts
         d3.selectAll('svg').remove();
         var data = scope.data;
@@ -100,87 +93,136 @@ angular.module('poliviz.committeeController', [])
         var svg = d3.select("my-chart").append("svg")
           .attr("width", width)
           .attr("height", height);
+        
+        // NOTE: move this into a factory? 
+        d3.csv('committee/capitals.csv', function(error, capitals) {
 
-        var circles = svg.selectAll('circle')
-          .data(data)
-          .enter()
-          .append('circle')
-          .style('fill', function(d) { //color bubbles based on party affiliation
-            if (d["CAND_PTY_AFFILIATION"] === "REP") {
-              return 'red';
-            } else if (d["CAND_PTY_AFFILIATION"] === "DEM") {
-              return 'blue';
-            } else {
-              return 'green';
-            }
+          // create states hash with lat and long of capital abbrevs;
+          var stateHash = {}
+          capitals.forEach(function(capital) {
+            var coords = stateHash[capital.abbrev] = {};
+            coords.lat = (-Number(capital.latitude) + 52) * 25;
+            coords.long = (Number(capital.longitude) + 140) * 14;
           })
-          .attr('r', function(d) { //set max and min bubble size for visual purposes
-            var radius = function(value) { 
-              if (value < 50) {
-                value = 50;
-              } 
-              var minp = 1;
-              var maxp = 13;
-              var minv = Math.log(1);
-              var maxv = Math.log(largestContribution);
-              var scale = (maxv-minv) / (maxp-minp);
-              return (Math.log(value)-minv) / scale + minp;
-            }
-            return radius(d[contribType])
-          })
-          .attr('cx', function() {
-            return Math.random() * width;
-          })
-          .attr('cy', function() {
-            return Math.random() * height;
-          })
-          .transition().duration(1000)
-          .attr('cy', function(d, i) {
-            if (i % rowSize === 0) {
-              yCounter = yCounter + 35;
-            }
-            return yCounter;
-          })
-          .attr('cx', function(d, i) {
-            if (i % rowSize === 0) {
-              xCounter = 1;
-            }
-            xCounter++;
-            return xCounter * 20;
-          });
 
-        // Helper function to convert number to display as currency
-        var convertCurrency = function(number) {
-          var rounded = Math.round(number)
-          return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        };
+          // Don't move this around;
+          var force = d3.layout.force()
+              .nodes(data)
+              .size([width, height])
+              .gravity(.02)
+              .charge(0)
+              .on("tick", tick)
+              .start();
 
-        // Add tooltips for bubbles
-        var tip = d3.tip()
-          .attr('class', 'd3-tip')
-          .offset([-10, 0])
-          .html(function(d) {
-            if(scope.contrib === 'ALL') {
-              return "<h5>" + d['CAND_NAME'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div> \
-                      <div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['OTHER_POL_CMTE_CONTRIB']) + "</div> \
-                      <div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['POL_PTY_CONTRIB']) + "</div> \
-                      <div class='miniQuote'> Individual Contributions:  $" + convertCurrency(d['TTL_INDIV_CONTRIB']) + "</div> \
-                      <div class='miniQuote'> Candidate Contributions:  $" + convertCurrency(d['CAND_CONTRIB']) + "</div> \
-                      <div class='miniQuote'> Total Disbursements:  $" + convertCurrency(d['TTL_DISB']) + "</div>";
-            } else {
-              return "<h5>" + d['CAND_NAME'] + "</h5> <div class='miniQuote'> Total Raised: $" + convertCurrency(d[contribType]) + "</div>";
-            }
-          });
+          var circles = svg.selectAll('circle')
+              .data(data)
+            .enter().append('circle')
+              .style('fill', function(d) { //color bubbles based on party affiliation
+                if (d["CAND_PTY_AFFILIATION"] === "REP") {
+                  return 'red';
+                } else if (d["CAND_PTY_AFFILIATION"] === "DEM") {
+                  return 'blue';
+                } else {
+                  return 'green';
+                }
+              })
+              .attr('r', function(d) { //set max and min bubble size for visual purposes
+                var radius = function(value) { 
+                  if (value < 50) {
+                    value = 50;
+                  }
+                  var minp = 2;
+                  var maxp = 30;
+                  var minv = Math.pow(1, .5);
+                  var maxv = Math.pow(largestContribution, .5);
+                  var scale = (maxv-minv) / (maxp-minp);
+                  return (Math.pow(value, .5)-minv) / scale + minp;
+                }
+                d.radius = radius(d[contribType]);
+                return radius(d[contribType])
+              })
+              .call(force.drag);
 
-        circles.call(tip);
+          d3.select(self.frameElement).style("height", height + "px");
 
-        d3.selectAll('circle').on("mouseover", function(d) {
-            tip.show(d)
-              .style('opacity', 0.8);
-          })
-          .on('mouseout', function(d) {
-            tip.hide(d);
-          });
+          function collide(alpha) {
+            var quadtree = d3.geom.quadtree(data);
+            return function(d) {
+              var r = d.radius + 10,
+                  nx1 = d.x - r,
+                  nx2 = d.x + r,
+                  ny1 = d.y - r,
+                  ny2 = d.y + r;
+              quadtree.visit(function(quad, x1, y1, x2, y2) {
+                if (quad.point && (quad.point !== d)) {
+                  var x = d.x - quad.point.x,
+                      y = d.y - quad.point.y,
+                      l = Math.sqrt(x * x + y * y),
+                      r = d.radius + quad.point.radius;
+                  if (l < r) {
+                    l = (l - r) / l * alpha;
+                    d.x -= x *= l;
+                    d.y -= y *= l;
+                    quad.point.x += x;
+                    quad.point.y += y;
+                  }
+                }
+                return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+              });
+            };
+          }
+
+          function tick(e) {
+
+            var k = .2 * e.alpha;
+
+            data.forEach(function(o, i) {
+              var coords = stateHash[o.CAND_OFFICE_ST] || {long: 10, lat: 10};
+              o.y += ((coords.lat || 10) - o.y) * k;
+              o.x += ((coords.long || 10) - o.x) * k;
+            });
+
+            circles
+                .each(collide(.5))
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });          
+          }
+
+
+          // Helper function to convert number to display as currency
+          var convertCurrency = function(number) {
+            var rounded = Math.round(number)
+            return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          };
+
+          // Add tooltips for bubbles
+          var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+              if(scope.contrib === 'ALL') {
+                return "<h5>" + d['CAND_NAME'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div> \
+                        <div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['OTHER_POL_CMTE_CONTRIB']) + "</div> \
+                        <div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['POL_PTY_CONTRIB']) + "</div> \
+                        <div class='miniQuote'> Individual Contributions:  $" + convertCurrency(d['TTL_INDIV_CONTRIB']) + "</div> \
+                        <div class='miniQuote'> Candidate Contributions:  $" + convertCurrency(d['CAND_CONTRIB']) + "</div> \
+                        <div class='miniQuote'> Total Disbursements:  $" + convertCurrency(d['TTL_DISB']) + "</div>";
+              } else {
+                return "<h5>" + d['CAND_NAME'] + "</h5> <div class='miniQuote'> Total Raised: $" + convertCurrency(d[contribType]) + "</div>";
+              }
+            });
+
+          circles.call(tip);
+
+          d3.selectAll('circle').on("mouseover", function(d) {
+              tip.show(d)
+                .style('opacity', 0.8);
+            })
+            .on('mouseout', function(d) {
+              tip.hide(d);
+            });
+        });
+
       });
     }
   };
