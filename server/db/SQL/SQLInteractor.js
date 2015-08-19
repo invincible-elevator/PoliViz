@@ -22,8 +22,10 @@ var getContributions = function(callback){
 
 //individual candidate data
 var getContributionsByName = function(candName, callback){
-  var queryString = "select CAND_NAME name, CMTE_NM committee, TRANSACTION_AMT amount \
-    FROM joinedData WHERE CAND_ID = '"+ candName +"' order by CAND_NAME, CMTE_NM;";
+  var queryString = "select CAND_NAME name, \
+                            CMTE_NM committee, \
+                            SUM(TRANSACTION_AMT) as total_amount \
+                     FROM joinedData WHERE CAND_ID = '" + candName + "' group by CMTE_NM;";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
