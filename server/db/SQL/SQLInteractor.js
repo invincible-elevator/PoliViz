@@ -35,8 +35,6 @@ var getContributions = function(callback){
 
 //individual candidate data
 var getContributionsByName = function(candName, callback){
-  console.log('test')
-  console.log(candName)
   var queryString = "select CAND_NAME, CAND_PTY_AFFILIATION, CMTE_NM, TRANSACTION_AMT \
     FROM joinedData WHERE CAND_NAME = '"+ candName +"' order by CAND_NAME, CMTE_NM;";
 
@@ -72,10 +70,30 @@ var getCandidateFinanceDataByName = function(candName, callback){
   });
 };
 
-exports.init = init;
-exports.getContributions = getContributions;
-exports.getContributionsByName = getContributionsByName;
-exports.getCandidateFinanceData = getCandidateFinanceData;
-exports.getCandidateFinanceDataByName = getCandidateFinanceDataByName;
+// gets candidate information
+var getCandidates = function(callback){ 
+  var queryString = "select CAND_ID id, \
+                            CAND_NAME name, \
+                            CAND_PTY_AFFILIATION party, \
+                            CAND_OFFICE position, \
+                            CAND_CITY city, \
+                            CAND_ST state, \
+                            CAND_ZIP zip from candidate";
+
+  connection.query(queryString, function(err, results){
+    if(err) console.log(err);
+    callback(JSON.stringify(results));
+  });
+};
+
+
+module.exports = {
+  init : init,
+  getContributions : getContributions,
+  getContributionsByName : getContributionsByName,
+  getCandidateFinanceData : getCandidateFinanceData,
+  getCandidateFinanceDataByName : getCandidateFinanceDataByName,
+  getCandidates : getCandidates
+};
 
 

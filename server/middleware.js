@@ -1,7 +1,7 @@
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var databaseController = require('./db/Mongo/databaseController.js');
-var SQLController = require('./db/SQL/SQLController.js');
+var morgan 							= require('morgan'),
+    bodyParser 					= require('body-parser'),
+ 		databaseController  = require('./db/Mongo/databaseController.js'),
+		SQLController 			= require('./db/SQL/SQLController.js');
 
 module.exports = function(app, express){
 
@@ -23,5 +23,13 @@ module.exports = function(app, express){
 	//Database Request for committee contributions and individual candidates
 	app.get('/campaignContributions', SQLController.getSummaryData);
 	app.post('/indCandidateData', SQLController.getSummaryDataByName);
+
+	// Database Request for committee information 
+	app.get('/contributors', SQLController.getContributors);
+	app.get('/contributors/:name', SQLController.getContributorData);
+
+	// Databse Request for candidate information
+	app.get('/candidates', SQLController.getCandidates);
+	app.get('/candidates/:name', SQLController.getCandidateData);
 
 };
