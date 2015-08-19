@@ -61,13 +61,19 @@ var getCandidateFinanceDataByName = function(candName, callback){
 
 // gets candidate information
 var getCandidates = function(callback){ 
-  var queryString = "select CAND_ID id, \
-                            CAND_NAME name, \
-                            CAND_PTY_AFFILIATION party, \
-                            CAND_OFFICE position, \
-                            CAND_CITY city, \
-                            CAND_ST state, \
-                            CAND_ZIP zip from candidate";
+  var queryString = "select candidate.CAND_ID id, \
+                            candidate.CAND_NAME name, \
+                            candidate.CAND_PTY_AFFILIATION party, \
+                            candidate.CAND_OFFICE position, \
+                            candidate.CAND_ST state, \
+                            CandFinance.TTL_RECEIPTS $total, \
+                            CandFinance.OTHER_POL_CMTE_CONTRIB $pac, \
+                            CandFinance.POL_PTY_CONTRIB $party, \
+                            CandFinance.TTL_INDIV_CONTRIB $individual, \
+                            CandFinance.CAND_CONTRIB $candidate \
+                    from candidate \
+                    inner join CandFinance \
+                    on candidate.CAND_ID = CandFinance.CAND_ID";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
