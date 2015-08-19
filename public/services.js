@@ -24,7 +24,7 @@ angular.module('poliviz.services', [])
 				return resp.data;
 			})
 		}
-	}
+	};
 })
 
 .factory('committeeData', function($http){ 
@@ -37,9 +37,10 @@ angular.module('poliviz.services', [])
 				return resp.data;
 			})
 		}
-	}
+	};
 })
 
+// This doens't currently work
 .factory('indCandidateData', function($http){ 
 	return { 
 		getData: function(candName){ 
@@ -52,5 +53,12 @@ angular.module('poliviz.services', [])
 				return resp.data;
 			})
 		}
-	}
+	};
+})
+
+.factory('statePositions', function() {
+
+	var stateHash = {};
+
+	return stateHash;
 });
