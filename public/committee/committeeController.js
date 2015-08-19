@@ -8,11 +8,11 @@ angular.module('poliviz.committeeController', [])
                    "MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT",
                    "VT","VI","VA","WA","WV","WI","WY"];
  
-  $scope.getData = function() {
+  var getData = function() {
     committeeData.getData()
       .then(function(data){
         $scope.data = data;
-    });
+      });
   };
 
   // Sets the default select/option
@@ -47,8 +47,8 @@ angular.module('poliviz.committeeController', [])
           });
         }
       });
-  };
-  $scope.getData();
+    };
+  getData();
 })
 
 //directive for displaying chart
@@ -95,27 +95,15 @@ angular.module('poliviz.committeeController', [])
           .attr("height", height);
         
         // NOTE: move this into a factory? 
-        var stateHash = {}
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
-          // Process the captials file and create a hash
-          // NOTE: probably shouldn't use d3 for this (do it by hand)
-          svg.selectAll('rect')
-            .data(capitals)
-            .enter()
-            .append('rect')
-            .attr('width', 1)
-            .attr('height', 1)
-            .attr('x', function(d) {
-              var long = (Number(d.longitude) + 140) * 14;
-              stateHash[d.abbrev] = {long: long};
-              return long;
-            })
-            .attr('y', function(d) {
-              var lat = (-Number(d.latitude) + 52) * 25;
-              stateHash[d.abbrev].lat = lat;
-              return lat;
-            });
+          // create states hash with lat and long of capital abbrevs;
+          var stateHash = {}
+          capitals.forEach(function(capital) {
+            var coords = stateHash[capital.abbrev] = {};
+            coords.lat = (-Number(capital.latitude) + 52) * 25;
+            coords.long = (Number(capital.longitude) + 140) * 14;
+          })
 
           // Don't move this around;
           var force = d3.layout.force()
