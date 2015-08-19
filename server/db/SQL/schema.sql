@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS PoliticalData;
+
 CREATE DATABASE PoliticalData;
 
 USE PoliticalData;
