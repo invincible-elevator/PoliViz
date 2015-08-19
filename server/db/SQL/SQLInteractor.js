@@ -11,7 +11,7 @@ connection.connect();
 
 //initializes the joinedData table with information from all three tables
 var init = function(){
-  var queryString = 'insert into joinedData select candidate.CAND_NAME, candidate.CAND_PTY_AFFILIATION, \
+  var queryString = 'insert into joinedData select candidate.CAND_NAME, candidate.CAND_ID, candidate.CAND_PTY_AFFILIATION, \
   candidate.CAND_ELECTION_YR, candidate.CAND_OFFICE, candidate.CAND_OFFICE_ST, candidate.CAND_OFFICE_DISTRICT, committees.CMTE_NM, \
   committees.CMTE_PTY_AFFILIATION, cont_to_cand.TRANSACTION_AMT from candidate inner join cont_to_cand \
   on candidate.CAND_ID = cont_to_cand.CAND_ID inner join committees on cont_to_cand.CMTE_ID = committees.CMTE_ID;';
@@ -35,8 +35,8 @@ var getContributions = function(callback){
 
 //individual candidate data
 var getContributionsByName = function(candName, callback){
-  var queryString = "select CAND_NAME, CAND_PTY_AFFILIATION, CMTE_NM, TRANSACTION_AMT \
-    FROM joinedData WHERE CAND_NAME = '"+ candName +"' order by CAND_NAME, CMTE_NM;";
+  var queryString = "select CAND_NAME name, CMTE_NM committee, TRANSACTION_AMT amount \
+    FROM joinedData WHERE CAND_ID = '"+ candName +"' order by CAND_NAME, CMTE_NM;";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
