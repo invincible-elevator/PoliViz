@@ -14,7 +14,9 @@ var getSummaryDataByName = function(req, res, next){
 };
 
 var getContributors = function(req, res, next) {
-  res.send('HELLO');
+  SQLdb.getContributors(function(results) { 
+    res.send(results);
+  });
 };
 
 var getContributorData = function(req, res, next) {

@@ -82,13 +82,31 @@ var getCandidates = function(callback){
   });
 };
 
+// get committee information
+var getContributors = function(callback) {
+  var queryString = "select committees.CMTE_ID id, \
+                            committees.CMTE_NM committee, \
+                            committees.CMTE_ST state, \
+                            SUM(cont_to_cand.TRANSACTION_AMT) $total \
+                     from committees \
+                     inner join cont_to_cand \
+                     on committees.CMTE_ID = cont_to_cand.CMTE_ID \
+                     group by committees.CMTE_ID";
+
+  connection.query(queryString, function(err, results){
+    if(err) console.log(err);
+    callback(JSON.stringify(results));
+  });
+};
+
 
 module.exports = {
   getContributions : getContributions,
   getContributionsByName : getContributionsByName,
   getCandidateFinanceData : getCandidateFinanceData,
   getCandidateFinanceDataByName : getCandidateFinanceDataByName,
-  getCandidates : getCandidates
+  getCandidates : getCandidates,
+  getContributors : getContributors
 };
 
 
