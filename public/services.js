@@ -11,7 +11,6 @@ angular.module('poliviz.services', [])
 			});
 		}
 	}
-
 })
 
 .factory('dataSets', function($http){ 
@@ -41,14 +40,59 @@ angular.module('poliviz.services', [])
 })
 
 // This doens't currently work
-.factory('indCandidateData', function($http){ 
+// .factory('indCandidateData', function($http){ 
+// 	return { 
+// 		getData: function(candName){ 
+// 			console.log(candName)
+// 			return $http ({ 
+// 				method: 'POST', 
+// 				data: {"candName": candName},
+// 				url: '/indCandidateData'
+// 			}).then(function(resp){ 
+// 				return resp.data;
+// 			})
+// 		}
+// 	};
+// })
+
+// 
+
+// Get data from all contributors
+.factory('contributorsCandidatesData', function($http){
+
 	return { 
-		getData: function(candName){ 
-			console.log(candName)
+		getContributors: function(){ 
 			return $http ({ 
-				method: 'POST', 
-				data: {"candName": candName},
-				url: '/indCandidateData'
+				method: 'GET', 
+				url: '/contributors'
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		},
+
+
+		getContributor: function(contributor){ 
+			return $http ({ 
+				method: 'GET', 
+				url: '/contributors/' + contributor
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		},
+
+		getCandidates: function(){ 
+			return $http ({ 
+				method: 'GET', 
+				url: '/candidates'
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		},
+
+		getCandidate: function(contributor){ 
+			return $http ({ 
+				method: 'GET', 
+				url: '/candidates/' + contributor
 			}).then(function(resp){ 
 				return resp.data;
 			})
@@ -56,7 +100,7 @@ angular.module('poliviz.services', [])
 	};
 })
 
-.factory('statePositions', function() {
+.factory('statePositions', function($scope) {
 
 	var stateHash = {};
 

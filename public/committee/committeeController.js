@@ -1,25 +1,24 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, committeeData, indCandidateData){
+.controller('committeeController', function($scope, committeeData, contributorsCandidatesData){
+  
   //list of abbreviated states
-  $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA","GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT","VT","VI","VA","WA","WV","WI","WY"];
+  $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA",
+                   "GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA",
+                   "MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND",
+                   "MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT",
+                   "VT","VI","VA","WA","WV","WI","WY"];
 
-  // 
+  contributorsCandidatesData.getContributor('CLINTON')
+    .then(function(data) {
+      console.log(data);
+    });
+ 
   $scope.getData = function() {
     committeeData.getData()
       .then(function(data){
         $scope.data = data;
     });
   };
-
-  // gets data for an individual candidate (post request)
-  // callback required, data request takes too long, prevents d3 form manipulating on 0 data, causes error.
-  // $scope.indCandidateData = function(candName, callback) {
-  //   indCandidateData.getData(candName)
-  //     .then(function(data) {
-  //       $scope.indCandidate = data;
-  //       callback(data);
-  //     });
-  // };
 
   // Sets the default select/option
   $scope.contrib = 'ALL';
@@ -63,7 +62,7 @@ angular.module('poliviz.committeeController', [])
     restrict: "EA",
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs) {
-      scope.$watchGroup(['data', 'indCandidateData'], function() {
+      scope.$watchGroup(['data'], function() {
         // remove any previous charts
         d3.selectAll('svg').remove();
         var data = scope.data;
@@ -99,19 +98,13 @@ angular.module('poliviz.committeeController', [])
         var svg = d3.select("my-chart").append("svg")
           .attr("width", width)
           .attr("height", height);
-
-        // var projection = d3.geo.albersUsa()
-        //     .scale(1400)
-        //     .translate([width / 2, height / 2]);
-
-        // var path = d3.geo.path()
-        //     .projection(projection);
         
         // NOTE: move this into a factory? 
         var stateHash = {}
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
           // Process the captials file and create a hash
+          // NOTE: probably shouldn't use d3 for this (do it by hand)
           svg.selectAll('rect')
             .data(capitals)
             .enter()
@@ -129,6 +122,7 @@ angular.module('poliviz.committeeController', [])
               return lat;
             });
 
+          // Don't move this around;
           var force = d3.layout.force()
               .nodes(data)
               .size([width, height])
