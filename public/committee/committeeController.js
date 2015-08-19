@@ -7,11 +7,6 @@ angular.module('poliviz.committeeController', [])
                    "MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND",
                    "MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT",
                    "VT","VI","VA","WA","WV","WI","WY"];
-
-  contributorsCandidatesData.getContributor('CLINTON')
-    .then(function(data) {
-      console.log(data);
-    });
  
   $scope.getData = function() {
     committeeData.getData()
