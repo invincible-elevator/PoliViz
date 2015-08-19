@@ -75,7 +75,6 @@ var getCandidates = function(callback){
 
 
 module.exports = {
-  init : init,
   getContributions : getContributions,
   getContributionsByName : getContributionsByName,
   getCandidateFinanceData : getCandidateFinanceData,

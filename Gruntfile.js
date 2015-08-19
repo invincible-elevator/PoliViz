@@ -2,14 +2,14 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    // concurrent: {
-    //   target: {
-    //     tasks: ['nodemon', 'watch'],
-    //     options: {
-    //       logConcurrentOutput: true
-    //     }
-    //   }
-    // },
+    concurrent: {
+      target: {
+        tasks: ['nodemon', 'watch'],
+        options: {
+          logConcurrentOutput: true
+        }
+      }
+    },
 
     // jshint: {
     //   files: ['Gruntfile.js', 'client/js/**/*.js', 'server/**/*.js'],
@@ -34,10 +34,12 @@ module.exports = function(grunt) {
     //   }
     // },  
 
-    // watch: {
-    //   files: ['Gruntfile.js', 'public/**/*.js', 'server/**/*.js'],
-    //   tasks: ['build']
-    // },
+    watch: {
+      // files: ['Gruntfile.js', 'public/**/*.js', 'server/**/*.js'],
+      // tasks: ['build']
+      files: ['**/*.sql'],
+      tasks: ['shell:sqlInstall']
+    },
 
     nodemon: {
       dev: {
@@ -80,6 +82,6 @@ module.exports = function(grunt) {
   grunt.registerTask('start',
     // ['build',
     //  'concurrent']
-    ['nodemon']
+    ['concurrent']
   );
 };
