@@ -81,13 +81,15 @@ CREATE TABLE `candidate`  (
  */
 CREATE TABLE `joinedData` (
   `CAND_NAME` varchar(200),
-  `CAND_ID` varchar(10),
+  `CAND_ID` varchar(9),
   `CAND_PTY_AFFILIATION` varchar(3),
   `CAND_ELECTION_YR` int,
   `CAND_OFFICE`  varchar(1),
   `CAND_OFFICE_ST` varchar(2),
   `CAND_OFFICE_DISTRICT` varchar(2),
+  `CMTE_ID` varchar(9),
   `CMTE_NM` varchar(200),
+  `CMTE_ST` varchar(2),
   `CMTE_PTY_AFFILIATION` varchar(3),
   `TRANSACTION_AMT` DECIMAL(14,2)
 );
