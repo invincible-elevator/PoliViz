@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS PoliticalData;
+
 CREATE DATABASE PoliticalData;
 
 USE PoliticalData;
@@ -79,6 +81,7 @@ CREATE TABLE `candidate`  (
  */
 CREATE TABLE `joinedData` (
   `CAND_NAME` varchar(200),
+  `CAND_ID` varchar(10),
   `CAND_PTY_AFFILIATION` varchar(3),
   `CAND_ELECTION_YR` int,
   `CAND_OFFICE`  varchar(1),
