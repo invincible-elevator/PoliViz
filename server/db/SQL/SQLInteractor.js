@@ -21,12 +21,12 @@ var getContributions = function(callback){
 };
 
 //individual candidate data
-var getContributionsByName = function(candName, callback){
+var getContributionsByName = function(candId, callback){
   var queryString = "select CMTE_ID id, \
                             CMTE_NM committee, \
                             CMTE_st state, \
-                            SUM(TRANSACTION_AMT) as $total \
-                     FROM joinedData WHERE CAND_ID = '" + candName + "' group by CMTE_NM;";
+                            SUM(TRANSACTION_AMT) as total$ \
+                     FROM joinedData WHERE CAND_ID = '" + candId + "' group by CMTE_NM;";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
@@ -67,11 +67,11 @@ var getCandidates = function(callback){
                             candidate.CAND_PTY_AFFILIATION party, \
                             candidate.CAND_OFFICE position, \
                             candidate.CAND_ST state, \
-                            CandFinance.TTL_RECEIPTS $total, \
-                            CandFinance.OTHER_POL_CMTE_CONTRIB $pac, \
-                            CandFinance.POL_PTY_CONTRIB $party, \
-                            CandFinance.TTL_INDIV_CONTRIB $individual, \
-                            CandFinance.CAND_CONTRIB $candidate \
+                            CandFinance.TTL_RECEIPTS total$, \
+                            CandFinance.OTHER_POL_CMTE_CONTRIB pac$, \
+                            CandFinance.POL_PTY_CONTRIB party$, \
+                            CandFinance.TTL_INDIV_CONTRIB individual$, \
+                            CandFinance.CAND_CONTRIB candidate$ \
                     from candidate \
                     inner join CandFinance \
                     on candidate.CAND_ID = CandFinance.CAND_ID";
@@ -87,7 +87,7 @@ var getContributors = function(callback) {
   var queryString = "select committees.CMTE_ID id, \
                             committees.CMTE_NM committee, \
                             committees.CMTE_ST state, \
-                            SUM(cont_to_cand.TRANSACTION_AMT) $total \
+                            SUM(cont_to_cand.TRANSACTION_AMT) total$ \
                      from committees \
                      inner join cont_to_cand \
                      on committees.CMTE_ID = cont_to_cand.CMTE_ID \
@@ -100,7 +100,7 @@ var getContributors = function(callback) {
 };
 
 // get individual contributor information
-var getContributorById = function(id, callback) {
+var getContributorById = function(ContribId, callback) {
   var queryString = "select CAND_ID id, \
                             CAND_NAME name, \
                             CAND_PTY_AFFILIATION party, \
@@ -108,7 +108,7 @@ var getContributorById = function(id, callback) {
                             CMTE_ST state, \
                             sum(TRANSACTION_AMT) total$ \
                      from joinedData \
-                     where CMTE_ID = '" + id + "' group by CAND_ID;";
+                     where CMTE_ID = '" + ContribId + "' group by CAND_ID;";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);

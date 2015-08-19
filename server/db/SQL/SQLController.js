@@ -20,8 +20,8 @@ var getContributors = function(req, res, next) {
 };
 
 var getContributorData = function(req, res, next) {
-  var contributorName = req.params.name;
-  SQLdb.getContributorById(contributorName, function(results) { 
+  var contributorID = req.params.id;
+  SQLdb.getContributorById(contributorID, function(results) { 
     res.send(results);
   });
 };
@@ -33,8 +33,8 @@ var getCandidates = function(req, res, next) {
 };
 
 var getCandidateData = function(req, res, next) {
-  var candidateName = req.params.name;
-  SQLdb.getContributionsByName(candidateName, function(results) { 
+  var candidateID = req.params.id;
+  SQLdb.getContributionsByName(candidateID, function(results) { 
     res.send(results);
   });
 };
