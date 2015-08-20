@@ -9,7 +9,7 @@ angular.module('poliviz.committeeController', [])
                    "VT","VI","VA","WA","WV","WI","WY"];
  
   var getData = function() {
-    contributorsCandidatesData.getCandidates()
+    contributorsCandidatesData.getContributors()
       .then(function(data){
         console.dir(data);
         $scope.data = data;
@@ -24,7 +24,7 @@ angular.module('poliviz.committeeController', [])
 
   // filters the data based on party affiliation
   $scope.selectFilter = function () {
-    contributorsCandidatesData.getCandidates()
+    contributorsCandidatesData.getContributors()
       .then(function(data){
         $scope.data = data;
         // if ($scope.contrib !== "ALL") {
@@ -117,8 +117,26 @@ angular.module('poliviz.committeeController', [])
               .data(data)
             .enter().append('circle')
               .style('fill', function(d) { //color bubbles based on party affiliation
+                if(d["industry"] === "C"){
+                  return '#5E412F';
+                } 
+                if(d["industry"] === "L"){
+                  return '#F0A830';
+                } 
+                if(d["industry"] === "M"){
+                  return '#F07818';
+                } 
+                if(d["industry"] === "T"){
+                  return '#78C0A8';
+                } 
+                if(d["industry"] === "V"){
+                  return '#FCEBB6';
+                } 
+                if(d["industry"] === "W"){
+                  return '#c07890';
+                } 
                 if (d["party"] === "REP") {
-                  return 'red';
+                  return '#FCEBB6';
                 } else if (d["party"] === "DEM") {
                   return 'blue';
                 } else {
