@@ -91,6 +91,7 @@ CREATE TABLE `joinedData` (
   `CMTE_ID` varchar(9),
   `CMTE_NM` varchar(200),
   `CMTE_ST` varchar(2),
+  `ORG_TP` varchar(1),
   `CMTE_PTY_AFFILIATION` varchar(3),
   `TRANSACTION_AMT` DECIMAL(14,2)
 );
