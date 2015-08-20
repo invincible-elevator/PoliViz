@@ -6,3 +6,5 @@ public/lib
 build/
 dist/
 server/config/config.js
+
+.DS_Store
