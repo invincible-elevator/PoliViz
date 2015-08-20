@@ -5,8 +5,8 @@ dates = ['14']
 
 for fileType in fileTypes:
   for date in dates: 
-    f = open(date + '/' + fileType + date + '.txt', 'r')
-    n = open(date + '/' + 'new' + fileType + date + '.txt', 'w')
+    f = open('data/' + date + '/' + fileType + date + '.txt', 'r')
+    n = open('data/' + date + '/' + 'new' + fileType + date + '.txt', 'w')
 
     for line in f:
       data = line.split('|')
@@ -47,5 +47,5 @@ for fileType in fileTypes:
         n.write(data[0] + '|' + data[11] + '|' + data[17] + '|' + data[25] + '|' + data[26] + '\n')
 
   f.close()
-  os.remove(date + '/' + fileType + date + '.txt')
-  os.rename(date + '/' + 'new' + fileType + date + '.txt', date + '/' + fileType + date + '.txt')
+  os.remove('data/' + date + '/' + fileType + date + '.txt')
+  os.rename('data/' + date + '/' + 'new' + fileType + date + '.txt', date + '/' + fileType + date + '.txt')
