@@ -1,6 +1,9 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, contributorsCandidatesData){
+.controller('committeeController', function($scope, dataRetrieval){
   
+  dataRetrieval.getContributors();
+  dataRetrieval.getCandidates();
+
   //list of abbreviated states
   $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA",
                    "GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA",
@@ -20,25 +23,25 @@ angular.module('poliviz.committeeController', [])
   // filters the data based on party affiliation
   $scope.selectFilter = function () {
 
-    contributorsCandidatesData.getCandidate($scope.id)
-      .then(function(data){
-        console.log(data);
-      });
-
+    // set the request to be made based on scope parameters
     var request;
     if ($scope.group === "CAND") {
 
+      $scope.id = dataRetrieval.candidate($scope.name);
+
       if (!$scope.id) {
-        request = contributorsCandidatesData.getCandidates;
+        request = dataRetrieval.getCandidates;
       } else {
-        request = contributorsCandidatesData.getCandidate;
+        request = dataRetrieval.getCandidate;
       }
     } else {
 
+      $scope.id = dataRetrieval.contributor($scope.name);
+
       if (!$scope.id) {
-        request = contributorsCandidatesData.getContributors;
+        request = dataRetrieval.getContributors;
       } else {
-        request = contributorsCandidatesData.getContributor;
+        request = dataRetrieval.getContributor;
       }
     }
 
@@ -227,12 +230,12 @@ angular.module('poliviz.committeeController', [])
 
           function tick(e) {
 
-            var k = .5 * e.alpha;
+            var k = .1 * e.alpha;
 
             data.forEach(function(o, i) {
               var coords = stateHash[o.state] || {long: 10, lat: 10};
-              o.y += ((coords.lat || 10) - o.y) * k;
-              o.x += ((coords.long || 10) - o.x) * k;
+              o.y += ((coords.lat || 0) - o.y) * k;
+              o.x += ((coords.long || 0) - o.x) * k;
             });
 
             circles
@@ -283,8 +286,9 @@ angular.module('poliviz.committeeController', [])
             .on('mouseout', function(d) {
               tip.hide(d);
             })
-            .on('click', function(d) {
-              scope.id = d.id;
+            .on('dblclick', function(d) {
+              // scope.id = d.id;
+              scope.name = d.name;
               if (d.party) {
                 scope.group = 'CAND'
               } else {

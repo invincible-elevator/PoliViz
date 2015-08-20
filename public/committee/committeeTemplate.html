@@ -2,6 +2,18 @@
     <nav-bar></nav-bar>
     <h2>Campaign Contributions 2015 - 2016 </h2>
     <div class='filters'>
+      <form class="col-md-6">
+        <select ng-model="group" class="form-control" ng-change="selectFilter()">
+          <option value="CAND">Candidates</option>
+          <option value="CONTRIB">Contributors</option>
+        </select>
+      </form>
+
+      <form class="col-md-6" ng-submit="selectFilter()">
+        <input ng-model="name" type="text" class="form-control" placeholder="Enter a Name">
+        </input>
+      </form>
+
       <form class="col-md-3">
         <select ng-model="contrib" class="form-control" ng-change="selectFilter()">
           <option value="ALL">Total Contributions</option>
@@ -14,7 +26,7 @@
       </form>
     
       <form class="col-md-3">
-        <select ng-model="partyAffil" class="form-control" ng-change="selectFilter()">
+        <select ng-model="partyAffil" class="form-control" ng-change="selectFilter()" >
           <option value="ALL">All Party Affiliations</option>
           <option value="REP">Republican</option>
           <option value="DEM">Democrat</option>
@@ -28,13 +40,6 @@
           <option value="H">House</option>
           <option value="S">Senate</option>
           <option value="P">President</option>
-        </select>
-      </form>
-
-      <form class="col-md-3">
-        <select ng-model="group" class="form-control" ng-change="selectFilter()">
-          <option value="CAND">Candidates</option>
-          <option value="CONTRIB">Contributors</option>
         </select>
       </form>
 
