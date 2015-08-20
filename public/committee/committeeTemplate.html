@@ -32,10 +32,17 @@
       </form>
 
       <form class="col-md-3">
+        <select ng-model="group" class="form-control" ng-change="selectFilter()">
+          <option value="CAND">Candidates</option>
+          <option value="CONTRIB">Contributors</option>
+        </select>
+      </form>
+
+      <form class="col-md-3">
         <select ng-model="candState" class="form-control" ng-change="selectFilter()">
           <option value="ALL">All states</option>
           <option value="00">Presidential</option>
-          <option ng-repeat='state in states'>{{state}}</option>
+          <option ng-repeat="state in states">{{state}}</option>
         </select>
       </form>
     </div>
