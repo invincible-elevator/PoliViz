@@ -23,9 +23,9 @@ var getContributions = function(callback){
 //individual candidate data
 var getContributionsByName = function(candId, callback){
   var queryString = "select CMTE_ID id, \
-                            CMTE_NM committee, \
-                            CMTE_ST state, \
+                            CMTE_NM name, \
                             ORG_TP industry, \
+                            CMTE_st state, \
                             SUM(TRANSACTION_AMT) as total$ \
                      FROM joinedData WHERE CAND_ID = '" + candId + "' group by CMTE_NM;";
 
@@ -86,7 +86,7 @@ var getCandidates = function(callback){
 // get contributor information
 var getContributors = function(callback) {
   var queryString = "select committees.CMTE_ID id, \
-                            committees.CMTE_NM committee, \
+                            committees.CMTE_NM name, \
                             committees.ORG_TP industry, \
                             committees.CMTE_ST state, \
                             SUM(cont_to_cand.TRANSACTION_AMT) total$ \

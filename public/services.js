@@ -89,10 +89,10 @@ angular.module('poliviz.services', [])
 			})
 		},
 
-		getCandidate: function(contributor){ 
+		getCandidate: function(candidate){ 
 			return $http ({ 
 				method: 'GET', 
-				url: '/candidates/' + contributor
+				url: '/candidates/' + candidate
 			}).then(function(resp){ 
 				return resp.data;
 			})

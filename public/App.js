@@ -7,7 +7,7 @@ angular.module('poliviz', [
 	'ngSanitize'
 ])
 
-.config(function($urlRouterProvider, $stateProvider, $httpProvider){
+.config(function($urlRouterProvider, $stateProvider){
 	$urlRouterProvider.otherwise("/");
 
 	$stateProvider

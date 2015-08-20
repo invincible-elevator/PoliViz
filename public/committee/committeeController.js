@@ -1,5 +1,5 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, committeeData, contributorsCandidatesData){
+.controller('committeeController', function($scope, contributorsCandidatesData){
   
   //list of abbreviated states
   $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA",
@@ -9,8 +9,9 @@ angular.module('poliviz.committeeController', [])
                    "VT","VI","VA","WA","WV","WI","WY"];
  
   var getData = function() {
-    committeeData.getData()
+    contributorsCandidatesData.getContributors()
       .then(function(data){
+        console.dir(data);
         $scope.data = data;
       });
   };
@@ -23,27 +24,27 @@ angular.module('poliviz.committeeController', [])
 
   // filters the data based on party affiliation
   $scope.selectFilter = function () {
-    committeeData.getData()
+    contributorsCandidatesData.getContributors()
       .then(function(data){
         $scope.data = data;
         // if ($scope.contrib !== "ALL") {
         //   $scope.data = $scope.data.filter(function(d){
-        //     return d.CAND_OFFICE_ST === $scope.candState;  // NEED TO FIX when data is pulled
+        //     return d.state === $scope.candState;  // NEED TO FIX when data is pulled
         //   });
         // }
         if ($scope.partyAffil !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
-            return d.CAND_PTY_AFFILIATION === $scope.partyAffil;
+            return d.party === $scope.partyAffil;
           });
         }
         if ($scope.candOffice !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
-            return d.CAND_OFFICE === $scope.candOffice;
+            return d.position === $scope.candOffice;
           });
         }
         if ($scope.candState !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
-            return d.CAND_OFFICE_ST === $scope.candState;
+            return d.state === $scope.candState;
           });
         }
       });
@@ -65,17 +66,15 @@ angular.module('poliviz.committeeController', [])
 
         // check for contribution type selected
         if(scope.contrib === 'ALL') {
-          contribType = 'TTL_RECEIPTS';
+          contribType = 'total$';
         } else if(scope.contrib === 'PAC') {
-          contribType = 'OTHER_POL_CMTE_CONTRIB';
+          contribType = 'pac$';
         } else if(scope.contrib === 'PP') {
-          contribType = 'POL_PTY_CONTRIB';
+          contribType = 'party$';
         } else if(scope.contrib === 'I') {
-          contribType = 'TTL_INDIV_CONTRIB';
+          contribType = 'individual$';
         } else if(scope.contrib === 'C') {
-          contribType = 'CAND_CONTRIB';
-        } else if(scope.contrib === 'D') {
-          contribType = 'TTL_DISB';
+          contribType = 'candidate$';
         }
 
         //sort data, largest to smallest contributions
@@ -118,9 +117,27 @@ angular.module('poliviz.committeeController', [])
               .data(data)
             .enter().append('circle')
               .style('fill', function(d) { //color bubbles based on party affiliation
-                if (d["CAND_PTY_AFFILIATION"] === "REP") {
-                  return 'red';
-                } else if (d["CAND_PTY_AFFILIATION"] === "DEM") {
+                if(d["industry"] === "C"){
+                  return '#5E412F';
+                } 
+                if(d["industry"] === "L"){
+                  return '#F0A830';
+                } 
+                if(d["industry"] === "M"){
+                  return '#F07818';
+                } 
+                if(d["industry"] === "T"){
+                  return '#78C0A8';
+                } 
+                if(d["industry"] === "V"){
+                  return '#FCEBB6';
+                } 
+                if(d["industry"] === "W"){
+                  return '#c07890';
+                } 
+                if (d["party"] === "REP") {
+                  return '#FCEBB6';
+                } else if (d["party"] === "DEM") {
                   return 'blue';
                 } else {
                   return 'green';
@@ -177,7 +194,7 @@ angular.module('poliviz.committeeController', [])
             var k = .2 * e.alpha;
 
             data.forEach(function(o, i) {
-              var coords = stateHash[o.CAND_OFFICE_ST] || {long: 10, lat: 10};
+              var coords = stateHash[o.state] || {long: 10, lat: 10};
               o.y += ((coords.lat || 10) - o.y) * k;
               o.x += ((coords.long || 10) - o.x) * k;
             });
@@ -201,14 +218,13 @@ angular.module('poliviz.committeeController', [])
             .offset([-10, 0])
             .html(function(d) {
               if(scope.contrib === 'ALL') {
-                return "<h5>" + d['CAND_NAME'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div> \
-                        <div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['OTHER_POL_CMTE_CONTRIB']) + "</div> \
-                        <div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['POL_PTY_CONTRIB']) + "</div> \
-                        <div class='miniQuote'> Individual Contributions:  $" + convertCurrency(d['TTL_INDIV_CONTRIB']) + "</div> \
-                        <div class='miniQuote'> Candidate Contributions:  $" + convertCurrency(d['CAND_CONTRIB']) + "</div> \
-                        <div class='miniQuote'> Total Disbursements:  $" + convertCurrency(d['TTL_DISB']) + "</div>";
+                return "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div> \
+                        <div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div> \
+                        <div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['party$']) + "</div> \
+                        <div class='miniQuote'> Individual Contributions:  $" + convertCurrency(d['individual$']) + "</div> \
+                        <div class='miniQuote'> Candidate Contributions:  $" + convertCurrency(d['candidate$']);
               } else {
-                return "<h5>" + d['CAND_NAME'] + "</h5> <div class='miniQuote'> Total Raised: $" + convertCurrency(d[contribType]) + "</div>";
+                return "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised: $" + convertCurrency(d[contribType]) + "</div>";
               }
             });
 
