@@ -93,7 +93,8 @@ var getContributors = function(callback) {
                      from committees \
                      inner join cont_to_cand \
                      on committees.CMTE_ID = cont_to_cand.CMTE_ID \
-                     group by committees.CMTE_ID";
+                     group by committees.CMTE_ID \
+                     order by total$ desc limit 100"
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
