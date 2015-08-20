@@ -144,7 +144,7 @@ angular.module('poliviz.committeeController', [])
           var force = d3.layout.force()
               .nodes(data)
               .size([width, height])
-              .gravity(.02)
+              .gravity(0)
               .charge(0)
               .on("tick", tick)
               .start();
@@ -227,7 +227,7 @@ angular.module('poliviz.committeeController', [])
 
           function tick(e) {
 
-            var k = .2 * e.alpha;
+            var k = .5 * e.alpha;
 
             data.forEach(function(o, i) {
               var coords = stateHash[o.state] || {long: 10, lat: 10};
@@ -276,7 +276,7 @@ angular.module('poliviz.committeeController', [])
 
           circles.call(tip);
 
-          d3.selectAll('circle').on("mouseover", function(d) {
+          d3.selectAll('circle').on('mouseover', function(d) {
               tip.show(d)
                 .style('opacity', 0.8);
             })
