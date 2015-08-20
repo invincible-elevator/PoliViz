@@ -252,6 +252,11 @@ angular.module('poliviz.committeeController', [])
             })
             .on('click', function(d) {
               scope.id = d.id;
+              if (d.party) {
+                scope.group = 'CAND'
+              } else {
+                scope.group = 'CONTRIB'
+              }
               scope.selectFilter();
             });
         });
