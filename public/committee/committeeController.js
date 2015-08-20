@@ -7,31 +7,44 @@ angular.module('poliviz.committeeController', [])
                    "MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND",
                    "MP","OH","OK","OR","PW","PA","PR","RI","SC","SD","TN","TX","UT",
                    "VT","VI","VA","WA","WV","WI","WY"];
- 
-  var getData = function() {
-    contributorsCandidatesData.getContributors()
-      .then(function(data){
-        console.dir(data);
-        $scope.data = data;
-      });
-  };
 
   // Sets the default select/option
-  $scope.contrib = 'ALL';
-  $scope.partyAffil = 'ALL';
-  $scope.candOffice = 'ALL';
-  $scope.candState = 'ALL';
+  $scope.contrib = "ALL";
+  $scope.partyAffil = "ALL";
+  $scope.candOffice = "ALL";
+  $scope.candState = "ALL";
+  $scope.group = "CAND";
+
+  $scope.id = undefined;
 
   // filters the data based on party affiliation
   $scope.selectFilter = function () {
-    contributorsCandidatesData.getContributors()
+
+    contributorsCandidatesData.getCandidate($scope.id)
+      .then(function(data){
+        console.log(data);
+      });
+
+    var request;
+    if ($scope.group === "CAND") {
+
+      if (!$scope.id) {
+        request = contributorsCandidatesData.getCandidates;
+      } else {
+        request = contributorsCandidatesData.getCandidate;
+      }
+    } else {
+
+      if (!$scope.id) {
+        request = contributorsCandidatesData.getContributors;
+      } else {
+        request = contributorsCandidatesData.getContributor;
+      }
+    }
+
+    request($scope.id)
       .then(function(data){
         $scope.data = data;
-        // if ($scope.contrib !== "ALL") {
-        //   $scope.data = $scope.data.filter(function(d){
-        //     return d.state === $scope.candState;  // NEED TO FIX when data is pulled
-        //   });
-        // }
         if ($scope.partyAffil !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
             return d.party === $scope.partyAffil;
@@ -48,8 +61,8 @@ angular.module('poliviz.committeeController', [])
           });
         }
       });
-    };
-  getData();
+  };
+  $scope.selectFilter();
 })
 
 //directive for displaying chart
@@ -136,7 +149,7 @@ angular.module('poliviz.committeeController', [])
                   return '#c07890';
                 } 
                 if (d["party"] === "REP") {
-                  return '#FCEBB6';
+                  return 'red';
                 } else if (d["party"] === "DEM") {
                   return 'blue';
                 } else {
@@ -236,6 +249,15 @@ angular.module('poliviz.committeeController', [])
             })
             .on('mouseout', function(d) {
               tip.hide(d);
+            })
+            .on('click', function(d) {
+              scope.id = d.id;
+              if (d.party) {
+                scope.group = 'CAND'
+              } else {
+                scope.group = 'CONTRIB'
+              }
+              scope.selectFilter();
             });
         });
 

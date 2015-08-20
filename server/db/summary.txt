@@ -37,7 +37,7 @@ getContributions(callback) -----------
 	candidate is running for from joinedData. Once the data has been retrieved, the callback is 
 	executed on the data. 
 
-getContributionsByName(candName, callback) -----------
+getCandidateById(candName, callback) -----------
 	gets given candidate name and party affiliation, committee name, total transactions, and what office the candidate is running for from joinedData. Once the data has been retrieved, the callback is 
 	executed on the data. 
 
