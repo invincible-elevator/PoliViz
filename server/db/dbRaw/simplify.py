@@ -2,7 +2,7 @@ import os
 
 # fileTypes = ['pas2','committee','cand','finance']
 fileTypes = ['cn','cm','webl','itpas2']
-dataPath = 'server/db/dbRaw2/data'
+dataPath = 'server/db/dbRaw/data'
 
 
 # HELPER FUNCTION to simplify files

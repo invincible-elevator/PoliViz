@@ -9,5 +9,5 @@ server/config/config.js
 
 .DS_Store
 
-server/db/dbRaw2/data/
+server/db/dbRaw/data/
 *.pyc
