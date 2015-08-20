@@ -2,16 +2,18 @@ import os
 
 # fileTypes = ['pas2','committee','cand','finance']
 fileTypes = ['cn','cm','webl','itpas2']
+dataPath = 'server/db/dbRaw2/data'
+
 
 # HELPER FUNCTION to simplify files
 def simplifyFile(date, fileType):
   if fileType == 'webl':
-    oldFileName = 'data/' + date + '/' + fileType + date + '.txt'
+    oldFileName = dataPath + '/' + date + '/' + fileType + date + '.txt'
   else: 
-    oldFileName = 'data/' + date + '/' + fileType + '.txt'
+    oldFileName = dataPath + '/' + date + '/' + fileType + '.txt'
 
   f = open(oldFileName, 'r')
-  n = open('data/' + date + '/' + 'new' + fileType + '.txt', 'w')
+  n = open(dataPath + '/' + date + '/' + 'new' + fileType + '.txt', 'w')
 
   for line in f:
     data = line.split('|')
@@ -53,4 +55,4 @@ def simplifyFile(date, fileType):
 
   f.close()
   os.remove(oldFileName)
-  os.rename('data/' + date + '/' + 'new' + fileType + '.txt', 'data/' + date + '/' + fileType + '.txt')
+  os.rename(dataPath + '/' + date + '/' + 'new' + fileType + '.txt', dataPath + '/' + date + '/' + fileType + '.txt')

@@ -4,6 +4,7 @@ from zipfile import ZipFile
 from ftplib import FTP
 
 
+dataPath = 'server/db/dbRaw2/data'
 years = ['14','16']
 files = ['cn','cm','webl','pas2'] # types of files we need
 
@@ -16,11 +17,11 @@ ftp.cwd('FEC')
 
 
 # make the directories that the files will be written to
-if os.path.exists('data'):
+if os.path.exists(dataPath):
   print 'data folder already exists'
 else:
-  os.mkdir('data')
-  newdirs = ['data/' + year for year in years]
+  os.mkdir(dataPath)
+  newdirs = [dataPath+'/' + year for year in years]
   for newdir in newdirs:
     os.mkdir(newdir)
 
@@ -32,7 +33,7 @@ for year in years:
   for fileInfo in fileList:
     if fileInfo in currentFiles:
       print 'saving '+fileInfo
-      newFileName = 'data/'+year+'/'+fileInfo
+      newFileName = dataPath+'/'+year+'/'+fileInfo
       # read file from FTP, write to file
       f = open(newFileName, 'wb')
       ftp.retrbinary('RETR %s' % fileInfo, f.write)
@@ -41,7 +42,7 @@ for year in years:
       # unzip file
       print 'extracting ' + fileInfo
       zippedFile = ZipFile(newFileName)
-      zippedFile.extractall('data/'+year)
+      zippedFile.extractall(dataPath+'/'+year)
 
       # delete zip file
       os.remove(newFileName)
