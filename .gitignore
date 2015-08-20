@@ -10,3 +10,4 @@ server/config/config.js
 .DS_Store
 
 server/db/dbRaw2/data/
+*.pyc

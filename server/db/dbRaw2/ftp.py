@@ -1,4 +1,5 @@
 import os
+import simplify
 from zipfile import ZipFile
 from ftplib import FTP
 
@@ -16,11 +17,12 @@ ftp.cwd('FEC')
 
 # make the directories that the files will be written to
 if os.path.exists('data'):
-  os.remove('data')
-os.mkdir('data')
-newdirs = ['data/' + year for year in years]
-for newdir in newdirs:
-  os.mkdir(newdir)
+  print 'data folder already exists'
+else:
+  os.mkdir('data')
+  newdirs = ['data/' + year for year in years]
+  for newdir in newdirs:
+    os.mkdir(newdir)
 
 # get files from FTP and write to files
 for year in years:
@@ -41,8 +43,15 @@ for year in years:
       zippedFile = ZipFile(newFileName)
       zippedFile.extractall('data/'+year)
 
-      # delete file
+      # delete zip file
       os.remove(newFileName)
+
+      # simplify file 
+      print 'simplifying ' + newFileName
+      fileType = fileInfo[:-6]
+      if fileType == 'pas2':
+        fileType = 'itpas2'
+      simplify.simplifyFile(year, fileType)
   ftp.cwd('..')
 
 ftp.quit()

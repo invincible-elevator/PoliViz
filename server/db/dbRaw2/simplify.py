@@ -1,51 +1,56 @@
 import os
 
-fileTypes = ['contrib','committee','cand','finance']
-dates = ['14']
+# fileTypes = ['pas2','committee','cand','finance']
+fileTypes = ['cn','cm','webl','itpas2']
 
-for fileType in fileTypes:
-  for date in dates: 
-    f = open('data/' + date + '/' + fileType + date + '.txt', 'r')
-    n = open('data/' + date + '/' + 'new' + fileType + date + '.txt', 'w')
+# HELPER FUNCTION to simplify files
+def simplifyFile(date, fileType):
+  if fileType == 'webl':
+    oldFileName = 'data/' + date + '/' + fileType + date + '.txt'
+  else: 
+    oldFileName = 'data/' + date + '/' + fileType + '.txt'
 
-    for line in f:
-      data = line.split('|')
+  f = open(oldFileName, 'r')
+  n = open('data/' + date + '/' + 'new' + fileType + '.txt', 'w')
 
-      # CONTRIBUTIONS TO CANDIDATES file 
-        # 0 is committee ID
-        # 5 is transaction type
-        # 14 is transaction amount 
-        # 16 is candidate ID
-      if fileType == 'contrib':
-        if data[5] == '24K':
-          n.write(data[0] + '|' + data[14] + '|' + data[16] + '\n')
+  for line in f:
+    data = line.split('|')
 
-      # COMMITTEE information file 
-        # 0 is committee ID
-        # 1 is name
-        # 6 is state
-        # 12 is interest group
-      if fileType == 'committee':
-        n.write(data[0] + '|' + data[1] + '|' + data[6] + '|' + data[12] + '\n')
+    # CONTRIBUTIONS TO CANDIDATES file 
+      # 0 is committee ID
+      # 5 is transaction type
+      # 14 is transaction amount 
+      # 16 is candidate ID
+    if fileType == 'itpas2':
+      if data[5] == '24K':
+        n.write(data[0] + '|' + data[14] + '|' + data[16] + '\n')
 
-      # CANDIDATE information file
-        # 0 is candidate id
-        # 1 is candidate name
-        # 2 is party 
-        # 4 is candidate state
-        # 5 is office (position)
-      if fileType == 'cand':
-        n.write(data[0] + '|' + data[1] + '|' + data[2] + '|' + data[4] + '|' + data[5] + '\n')
+    # COMMITTEE information file 
+      # 0 is committee ID
+      # 1 is name
+      # 6 is state
+      # 12 is interest group
+    if fileType == 'cm':
+      n.write(data[0] + '|' + data[1] + '|' + data[6] + '|' + data[12] + '\n')
 
-      # CANDIDATE finance information file 
-        # 0 is candidate ID
-        # 11 is candidate contributions 
-        # 17 is individual contributions 
-        # 25 is PAC contributions 
-        # 26 is party contributions 
-      if fileType == 'finance':
-        n.write(data[0] + '|' + data[11] + '|' + data[17] + '|' + data[25] + '|' + data[26] + '\n')
+    # CANDIDATE information file
+      # 0 is candidate id
+      # 1 is candidate name
+      # 2 is party 
+      # 4 is candidate state
+      # 5 is office (position)
+    if fileType == 'cn':
+      n.write(data[0] + '|' + data[1] + '|' + data[2] + '|' + data[4] + '|' + data[5] + '\n')
+
+    # CANDIDATE finance information file 
+      # 0 is candidate ID
+      # 11 is candidate contributions 
+      # 17 is individual contributions 
+      # 25 is PAC contributions 
+      # 26 is party contributions 
+    if fileType == 'webl':
+      n.write(data[0] + '|' + data[11] + '|' + data[17] + '|' + data[25] + '|' + data[26] + '\n')
 
   f.close()
-  os.remove('data/' + date + '/' + fileType + date + '.txt')
-  os.rename('data/' + date + '/' + 'new' + fileType + date + '.txt', date + '/' + fileType + date + '.txt')
+  os.remove(oldFileName)
+  os.rename('data/' + date + '/' + 'new' + fileType + '.txt', 'data/' + date + '/' + fileType + '.txt')
