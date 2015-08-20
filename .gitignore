@@ -6,3 +6,8 @@ public/lib
 build/
 dist/
 server/config/config.js
+
+.DS_Store
+
+server/db/dbRaw/data/
+*.pyc
