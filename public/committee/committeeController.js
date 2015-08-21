@@ -165,8 +165,8 @@ angular.module('poliviz.committeeController', [])
           var stateHash = {}
           capitals.forEach(function(capital) {
             var coords = stateHash[capital.abbrev] = {};
-            coords.lat = (-Number(capital.latitude) + 53) * 26;
-            coords.long = (Number(capital.longitude) + 122) * 20;
+            coords.lat = (-Number(capital.latitude) + 55) * 23;
+            coords.long = (Number(capital.longitude) + 125) * 18;
           })
 
           // Don't move this around;
@@ -217,7 +217,7 @@ angular.module('poliviz.committeeController', [])
                   var maxp = 30;
                   var minv = Math.pow(1, .5);
                   var maxv = Math.pow(largestContribution, .5);
-                  var scale = (maxv-minv) / (maxp-minp) * 1.75;
+                  var scale = (maxv-minv) / (maxp-minp) * 1.5;
                   return (Math.pow(value, .5)-minv) / scale + minp;
                 }
                 d.radius = radius(d[contribType]);
@@ -287,6 +287,8 @@ angular.module('poliviz.committeeController', [])
                 if(convertCurrency(d['pac$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div>";
                 }
+
+
                 if(convertCurrency(d['party$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['party$']) + "</div>";
                 }

@@ -9,18 +9,18 @@ angular.module('poliviz', [
 ])
 
 .config(function($urlRouterProvider, $stateProvider){
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/committee");
 
 	$stateProvider
-		.state('homepage',{
-			url: '/',
-			templateUrl: './homepage/homepageTemplate.html',
-			controller: 'homepageController'
-		})
 		.state('committee', {
 			url: '/committee',
 			templateUrl: './committee/committeeTemplate.html',
 			controller: 'committeeController'
+		})
+		.state('homepage',{
+			url: '/factcheck',
+			templateUrl: './homepage/homepageTemplate.html',
+			controller: 'homepageController'
 		});
 
 })
