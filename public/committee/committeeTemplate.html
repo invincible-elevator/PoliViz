@@ -1,20 +1,21 @@
 <div>
     <nav-bar></nav-bar>
-    <h2>Campaign Contributions 2015 - 2016 </h2>
     <div class='filters'>
 
-      <select ng-model="cycle" class="form-control" ng-change="selectFilter()">
-        <option value="2016">2016</option>
-        <option value="2014">2014</option>
-        <option value="2012">2012</option>
-        <option value="2010">2010</option>
-        <option value="2008">2018</option>
-      </select>
+      <form class="col-md-3">
+        <select ng-model="cycle" class="form-control" ng-change="selectFilter()">
+          <option value="2016">2016</option>
+          <option value="2014">2014</option>
+          <option value="2012">2012</option>
+          <option value="2010">2010</option>
+          <option value="2008">2008</option>
+        </select>
+      </form>
       
-      <form class="col-md-6">
+      <form class="col-md-3">
         <select ng-model="group" class="form-control" ng-change="selectFilter()">
-          <option value="CAND">Candidates</option>
-          <option value="CONTRIB">Contributors</option>
+          <option value="Candidates">Candidates</option>
+          <option value="Contributions">Contributors</option>
         </select>
       </form>
 
@@ -62,7 +63,8 @@
     </div>
     <p class='text-center'>Data from fec.gov</p>
 
+    <h2 ng-model='name'>{{cycle}} {{title}} {{other}}</h2>
     <div class="center-block cont_chart center">
         <my-chart></my-chart>
-    </div>
+  </div>
 </div>

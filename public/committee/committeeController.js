@@ -1,5 +1,5 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, dataRetrieval){
+.controller('committeeController', function($scope, dataRetrieval, formating){
   
   dataRetrieval.getContributors();
   dataRetrieval.getCandidates();
@@ -17,7 +17,7 @@ angular.module('poliviz.committeeController', [])
   $scope.partyAffil = "ALL";
   $scope.candOffice = "ALL";
   $scope.candState = "ALL";
-  $scope.group = "CAND";
+  $scope.group = "Candidates";
 
   $scope.id = undefined;
 
@@ -26,13 +26,15 @@ angular.module('poliviz.committeeController', [])
 
     // set the request to be made based on scope parameters
     var request;
-    if ($scope.group === "CAND") {
+    if ($scope.group === "Candidates") {
 
       $scope.id = dataRetrieval.candidate($scope.name);
 
       if (!$scope.id) {
+        $scope.other = "Candidates";
         request = dataRetrieval.getCandidates;
       } else {
+        $scope.other = "Contributors";
         request = dataRetrieval.getCandidate;
       }
     } else {
@@ -40,11 +42,15 @@ angular.module('poliviz.committeeController', [])
       $scope.id = dataRetrieval.contributor($scope.name);
 
       if (!$scope.id) {
+        $scope.other = "Contributors";
         request = dataRetrieval.getContributors;
       } else {
+        $scope.other = "Candidates";
         request = dataRetrieval.getContributor;
       }
     }
+
+    $scope.title = formating.name($scope.name);
 
     request($scope.id)
       .then(function(data){
@@ -77,7 +83,7 @@ angular.module('poliviz.committeeController', [])
   var setSearchOptions = function() {
 
     var data;
-    if ($scope.group === "CAND") {
+    if ($scope.group === "Candidates") {
       data = dataRetrieval.getCandidateData();
     } else {
       data = dataRetrieval.getContributorData();
@@ -100,8 +106,8 @@ angular.module('poliviz.committeeController', [])
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs) {
       scope.$watchGroup(['data'], function() {
-        // remove any previous charts
 
+        // remove any previous charts
         d3.selectAll('svg').remove();
         var data = scope.data;
         var contribType = '';
@@ -124,19 +130,56 @@ angular.module('poliviz.committeeController', [])
           return b[contribType] - a[contribType];
         });
 
-
-
         var width = 1050;
         var height = 800;
-        //varibles to move datapoint to new line
-        var yCounter = 10;
-        var xCounter = 1;
-        var rowSize = 50;
         var largestContribution = data[0][contribType];
-        var svg = d3.select("my-chart").append("svg")
-          .attr("width", width)
-          .attr("height", height);
+        var svg = d3.select('my-chart').append('svg')
+          .attr('width', width)
+          .attr('height', height);
+
+        // create legend
+        var legendRectSize = 15;
+        var legendSpacing = 5;
+        var legendOffset = 30;
+
+        var colorData;
+        if (scope.group === 'Candidates') {
+          colorData = [{name: 'Republican', color: 'red'},
+                       {name: 'Democrat', color: 'blue'},
+                       {name: 'Independent', color: 'green'}];
+        } else {
+          colorData = [{name: 'Corporation', color: '#5E412F'},
+                       {name: 'Labor organization', color: '#F0A830'},
+                       {name: 'Membership organization', color: '#F07818'},
+                       {name: 'Trade association', color: '#78C0A8'},
+                       {name: 'Cooperative', color: '#FCEBB6'},
+                       {name: 'Corporation without capital stock', color: '#C07890'},]
+        }
         
+        var legend = svg.selectAll('.legend')
+            .data(colorData)
+          .enter()
+            .append('g')
+            .attr('class', 'legend')
+
+        legend.append('rect')
+            .attr('width', legendRectSize)
+            .attr('height', legendRectSize)
+            .attr('fill', function(d) {
+              return d.color;
+            }) 
+            .attr('x', legendRectSize + legendOffset)
+            .attr('y', function(d, i) {
+              return (legendRectSize + legendSpacing) * i;
+            });
+
+        legend.append('text')
+          .attr('x', 2 * legendRectSize + legendOffset + legendSpacing)
+          .attr('y',  function(d, i) {
+              return (legendRectSize + legendSpacing) * (i + .7);
+            })
+          .text(function(d) { return d.name; });
+
         var lower48 = d3.select("svg").append("svg:image")
             .attr("xlink:href", "assets/us_map.svg")
             .attr("width", width)
@@ -198,7 +241,7 @@ angular.module('poliviz.committeeController', [])
                   return '#FCEBB6';
                 } 
                 if(d["industry"] === "W"){
-                  return '#c07890';
+                  return '#C07890';
                 } 
                 if (d["party"] === "REP") {
                   return 'red';
@@ -317,9 +360,9 @@ angular.module('poliviz.committeeController', [])
               // scope.id = d.id;
               scope.name = d.name;
               if (d.party) {
-                scope.group = 'CAND'
+                scope.group = 'Candidates'
               } else {
-                scope.group = 'CONTRIB'
+                scope.group = 'Contributions'
               }
               scope.selectFilter();
             });

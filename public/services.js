@@ -117,9 +117,28 @@ angular.module('poliviz.services', [])
 	};
 })
 
-.factory('statePositions', function($scope) {
+// formate a name so that it starts with capitals and has first name first
+.factory('formating', function() {
+	return {
+		name: function(name) {
 
-	var stateHash = {};
+			if (!name) return '';
 
-	return stateHash;
+			var comma = name.indexOf(',');
+			if (comma === -1) comma = -2;
+			
+			var first = name.slice(comma + 2).toLowerCase();
+			var last = (comma === -2) ? '' : name.slice(0, comma).toLowerCase();
+
+			var words = (first + ' ' + (last || '')).split(' ');
+			var result = words.reduce(function(total, curr) {
+				if (curr.length === 1) {
+					curr = curr + '.';
+				}
+				return total + ' ' + curr.charAt(0).toUpperCase() + curr.slice(1);
+			}, '');
+
+			return result;
+		},
+	};
 });
