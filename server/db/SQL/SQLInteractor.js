@@ -22,8 +22,8 @@ var getCandidates = function(callback){
 //individual candidate data
 var getCandidateById = function(candId, callback){
   var queryString = "select contributionHelper.cycle, \
-                            contributionHelper.cmte_id, \
-                            contributionHelper.sum $total, \
+                            contributionHelper.cmte_id id, \
+                            contributionHelper.sum total$, \
                             contributors.name, \
                             contributors.state, \
                             contributors.type industry \
@@ -50,7 +50,8 @@ var getContributors = function(callback) {
 // get individual contributor information
 var getContributorById = function(contribId, callback) {
   var queryString = "select ch.cycle, \
-                          ch.sum $total, \
+                          ch.sum total$, \
+                          c.id, \
                           c.name, \
                           c.state, \
                           c.party, \
