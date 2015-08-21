@@ -115,20 +115,6 @@ angular.module('poliviz.committeeController', [])
             // .attr("transform", scale(2))
             .attr("class","bg");
 
-        console.dir(img); 
-            // .translate([width / 2, height / 2]);
-
-        //     .scale(1400)
-        //     .translate([width / 2, height / 2]);
-
-        // var path = d3.geo.path()
-        //     .projection(projection);
-
-        // d3.select("#svgEmbed").append("image")
-        //     .attr("xlink:href","https://upload.wikimedia.org/wikipedia/commons/d/d8/Compass_card_(de).svg")
-        //     .attr("width", 100)
-        //     .attr("height", 100)
-
         // NOTE: move this into a factory? 
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
