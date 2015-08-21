@@ -9,11 +9,11 @@ angular.module('poliviz', [
 ])
 
 .config(function($urlRouterProvider, $stateProvider){
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/committee");
 
 	$stateProvider
 		.state('committee', {
-			url: '/',
+			url: '/committee',
 			templateUrl: './committee/committeeTemplate.html',
 			controller: 'committeeController'
 		})
