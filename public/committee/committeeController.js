@@ -95,6 +95,11 @@ angular.module('poliviz.committeeController', [])
       data = dataRetrieval.getContributorData();
     }
 
+    data = data.filter(function(datum) {
+      return datum.cycle === +$scope.cycle;
+    })
+    console.log(data)
+
     var options = [];
     data.forEach(function(datum) {
       options.push(datum.name);
