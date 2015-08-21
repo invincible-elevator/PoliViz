@@ -254,11 +254,21 @@ angular.module('poliviz.committeeController', [])
             .offset([-10, 0])
             .html(function(d) {
               if(scope.contrib === 'ALL') {
-                return "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div> \
-                        <div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div> \
-                        <div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['party$']) + "</div> \
-                        <div class='miniQuote'> Individual Contributions:  $" + convertCurrency(d['individual$']) + "</div> \
-                        <div class='miniQuote'> Candidate Contributions:  $" + convertCurrency(d['candidate$']);
+                var htmlString = "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div>"
+                console.log(convertCurrency(d['pac$']));
+                if(convertCurrency(d['pac$']) !== 'NaN') {
+                  htmlString += "<div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div>";
+                }
+                if(convertCurrency(d['party$']) !== 'NaN') {
+                  htmlString += "<div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['party$']) + "</div>";
+                }
+                if(convertCurrency(d['individual$']) !== 'NaN') {
+                  htmlString += "<div class='miniQuote'> Individual Contributions:  $" + convertCurrency(d['individual$']) + "</div>";
+                }
+                if(convertCurrency(d['candidate$']) !== 'NaN') {
+                  htmlString += "<div class='miniQuote'> Candidate Contributions:  $" + convertCurrency(d['candidate$']) + "</div>";
+                }
+                return htmlString;
               } else {
                 return "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised: $" + convertCurrency(d[contribType]) + "</div>";
               }
