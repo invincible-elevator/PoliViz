@@ -47,5 +47,3 @@ create table contributionHelper as select cycle, cmte_id, cand_id, sum(amount) s
 ALTER TABLE `contributionHelper` ADD INDEX `con_id` (`cmte_id`);
 
 create table contributorInfo as select ch.cycle, ch.cmte_id id, c.name, c.state, c.type industry, sum(ch.sum) total$ from contributionHelper ch, contributors c where ch.cmte_id = c.id group by ch.cycle, ch.cmte_id;
-
-#select ch.cycle, ch.cmte_id, sum(ch.sum) from contributionHelper ch group by ch.cycle,ch.cmte_id;;

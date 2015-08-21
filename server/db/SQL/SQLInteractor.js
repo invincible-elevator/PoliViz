@@ -49,14 +49,15 @@ var getContributors = function(callback) {
 
 // get individual contributor information
 var getContributorById = function(contribId, callback) {
-  var queryString = "select CAND_ID id, \
-                            CAND_NAME name, \
-                            CAND_PTY_AFFILIATION party, \
-                            CAND_OFFICE position, \
-                            CMTE_ST state, \
-                            sum(TRANSACTION_AMT) total$ \
-                     from joinedData \
-                     where CMTE_ID = '" + contribId + "' group by CAND_ID;";
+  var queryString = "select ch.cycle, \
+                          ch.sum $total, \
+                          c.name, \
+                          c.state, \
+                          c.party, \
+                          c.office position \
+                    from contributionHelper ch, candidates c \
+                    where ch.cand_id = c.id and ch.cmte_id='" +contribId+"' \
+                    group by ch.cycle, ch.cand_id;";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
