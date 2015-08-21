@@ -95,8 +95,10 @@ angular.module('poliviz.committeeController', [])
           return b[contribType] - a[contribType];
         });
 
-        var height = 800;
+
+
         var width = 1050;
+        var height = 800;
         //varibles to move datapoint to new line
         var yCounter = 10;
         var xCounter = 1;
@@ -106,6 +108,27 @@ angular.module('poliviz.committeeController', [])
           .attr("width", width)
           .attr("height", height);
         
+        var img = d3.select("svg").append("svg:image")
+            .attr("xlink:href", "assets/us_map.svg")
+            .attr("width", width)
+            .attr("height", height)
+            // .attr("transform", scale(2))
+            .attr("class","bg");
+
+        console.dir(img); 
+            // .translate([width / 2, height / 2]);
+
+        //     .scale(1400)
+        //     .translate([width / 2, height / 2]);
+
+        // var path = d3.geo.path()
+        //     .projection(projection);
+
+        // d3.select("#svgEmbed").append("image")
+        //     .attr("xlink:href","https://upload.wikimedia.org/wikipedia/commons/d/d8/Compass_card_(de).svg")
+        //     .attr("width", 100)
+        //     .attr("height", 100)
+
         // NOTE: move this into a factory? 
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
@@ -113,8 +136,8 @@ angular.module('poliviz.committeeController', [])
           var stateHash = {}
           capitals.forEach(function(capital) {
             var coords = stateHash[capital.abbrev] = {};
-            coords.lat = (-Number(capital.latitude) + 52) * 25;
-            coords.long = (Number(capital.longitude) + 140) * 14;
+            coords.lat = (-Number(capital.latitude) + 53) * 26;
+            coords.long = (Number(capital.longitude) + 122) * 20;
           })
 
           // Don't move this around;
