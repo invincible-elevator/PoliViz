@@ -11,7 +11,7 @@
           <option value="2008">2008</option>
         </select>
       </form>
-      
+
       <form class="col-md-3">
         <select ng-model="group" class="form-control" ng-change="selectFilter()">
           <option value="Candidates">Candidates</option>
@@ -34,7 +34,7 @@
           <option value="D">Total Disbursements</option>
         </select>
       </form>
-    
+
       <form class="col-md-3">
         <select ng-model="partyAffil" class="form-control" ng-change="selectFilter()" >
           <option value="ALL">All Party Affiliations</option>
@@ -63,7 +63,7 @@
     </div>
     <p class='text-center'>Data from fec.gov</p>
 
-    <h2 ng-model='name'>{{cycle}} {{title}} {{other}}</h2>
+    <h2 ng-model='name'>{{title}} {{other}} ({{cycle}})</h2>
     <div class="center-block cont_chart center">
         <my-chart></my-chart>
   </div>
