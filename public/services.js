@@ -60,16 +60,18 @@ angular.module('poliviz.services', [])
 // Get data from all contributors
 .factory('dataRetrieval', function($http){
 
-	var candidatesData = null;
-	var contributorsData = null;
+	var contributorsData;
+	var candidateData;
+	
 	return { 
+
 		// This only happens once
 		getCandidates: function(){ 
 			return $http ({ 
 				method: 'GET', 
 				url: '/candidates'
 			}).then(function(resp){
-				candidatesData = resp.data; 
+				candidateData = resp.data; 
 				return resp.data;
 			})
 		},
@@ -104,11 +106,11 @@ angular.module('poliviz.services', [])
 		},
 
 		candidate: function(name) {
-			if (!candidatesData) return;
+			if (!candidateData) return;
 
-			for (var i = 0; i < candidatesData.length; i++) {
-				if (candidatesData[i].name === name) {
-					return candidatesData[i].id;
+			for (var i = 0; i < candidateData.length; i++) {
+				if (candidateData[i].name === name) {
+					return candidateData[i].id;
 				}
 			}
 		},
@@ -121,6 +123,14 @@ angular.module('poliviz.services', [])
 					return contributorsData[i].id;
 				}
 			}
+		},
+
+		getCandidateData: function() {
+			return candidateData;
+		},
+
+		getContributorData: function() {
+			return contributorsData;
 		}
 	};
 })
