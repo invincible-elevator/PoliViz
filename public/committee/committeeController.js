@@ -259,7 +259,7 @@ angular.module('poliviz.committeeController', [])
             });
 
             circles
-                .each(collide(.5))
+                .each(collide(.6))
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; });          
           }
@@ -278,7 +278,6 @@ angular.module('poliviz.committeeController', [])
             .html(function(d) {
               if(scope.contrib === 'ALL') {
                 var htmlString = "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div>"
-                console.log(convertCurrency(d['pac$']));
                 if(convertCurrency(d['pac$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div>";
                 }
