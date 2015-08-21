@@ -95,6 +95,7 @@ angular.module('poliviz.committeeController', [])
     link: function(scope, elem, attrs) {
       scope.$watchGroup(['data'], function() {
         // remove any previous charts
+
         d3.selectAll('svg').remove();
         var data = scope.data;
         var contribType = '';
