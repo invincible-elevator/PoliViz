@@ -34,9 +34,18 @@ LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/16/itpas2.txt' INTO TABLE contribut
 
 LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/16/webl.txt' INTO TABLE finances FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2016';
 
+# create indices on tables 
+
+ALTER TABLE `contributors` ADD INDEX `con_id` (`id`);
+ALTER TABLE `candidates` ADD INDEX `cand_id` (`id`);
+ALTER TABLE `finances` ADD INDEX `cand_id` (`id`);
+
 #create helper tables
-create table candidateInfo as select c.id,c.name, c.party, c.office position, c.state, c.cycle, f.totalMoney total$, f.pacMoney pac$, f.partyMoney party$, f.individualMoney individual$, f.candidateMoney candidate$ from candidates c inner join finances f on c.id = f.id and c.cycle = f.cycle;
+create table candidateInfo as select c.id, c.name, c.party, c.office position, c.state, c.cycle, f.totalMoney total$, f.pacMoney pac$, f.partyMoney party$, f.individualMoney individual$, f.candidateMoney candidate$ from candidates c inner join finances f on c.id = f.id and c.cycle = f.cycle;
 
--- create table candidateDetail as select contrib.cycle, contrib.cand_id, c.id id, c.name name, c.type industry, c.state state, SUM(contrib.amount) as total$ from contributions contrib inner join contributors c where contrib.cmte_id = c.id and contrib.cycle = c.cycle group by c.name;
+create table contributionHelper as select cycle, cmte_id, cand_id, sum(amount) sum from contributions where cand_id <> '' group by cycle, cmte_id, cand_id;
+ALTER TABLE `contributionHelper` ADD INDEX `con_id` (`cmte_id`);
 
-create table contributionHelper as select cycle, cmte_id, cand_id, sum(amount) from contributions where cand_id <> '' group by cycle, cmte_id, cand_id;
+create table contributorInfo as select ch.cycle, ch.cmte_id id, c.name, c.state, c.type industry, sum(ch.sum) total$ from contributionHelper ch, contributors c where ch.cmte_id = c.id group by ch.cycle, ch.cmte_id;
+
+#select ch.cycle, ch.cmte_id, sum(ch.sum) from contributionHelper ch group by ch.cycle,ch.cmte_id;;
