@@ -1,6 +1,9 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, contributorsCandidatesData){
+.controller('committeeController', function($scope, dataRetrieval){
   
+  dataRetrieval.getContributors();
+  dataRetrieval.getCandidates();
+
   //list of abbreviated states
   $scope.states = ["AL","AK","AS","AZ","AR","CA","CO","CT","DE","DC","FM","FL","GA",
                    "GU","HI","ID","IL","IN","IA","KS","KY","LA","ME","MH","MD","MA",
@@ -20,31 +23,33 @@ angular.module('poliviz.committeeController', [])
   // filters the data based on party affiliation
   $scope.selectFilter = function () {
 
-    contributorsCandidatesData.getCandidate($scope.id)
-      .then(function(data){
-        console.log(data);
-      });
-
+    // set the request to be made based on scope parameters
     var request;
     if ($scope.group === "CAND") {
 
+      $scope.id = dataRetrieval.candidate($scope.name);
+
       if (!$scope.id) {
-        request = contributorsCandidatesData.getCandidates;
+        request = dataRetrieval.getCandidates;
       } else {
-        request = contributorsCandidatesData.getCandidate;
+        request = dataRetrieval.getCandidate;
       }
     } else {
 
+      $scope.id = dataRetrieval.contributor($scope.name);
+
       if (!$scope.id) {
-        request = contributorsCandidatesData.getContributors;
+        request = dataRetrieval.getContributors;
       } else {
-        request = contributorsCandidatesData.getContributor;
+        request = dataRetrieval.getContributor;
       }
     }
 
     request($scope.id)
       .then(function(data){
+
         $scope.data = data;
+        setSearchOptions();
         if ($scope.partyAffil !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
             return d.party === $scope.partyAffil;
@@ -62,17 +67,35 @@ angular.module('poliviz.committeeController', [])
         }
       });
   };
+
+  var setSearchOptions = function() {
+
+    var data;
+    if ($scope.group === "CAND") {
+      data = dataRetrieval.getCandidateData();
+    } else {
+      data = dataRetrieval.getContributorData();
+    }
+
+    var options = [];
+    data.forEach(function(datum) {
+      options.push(datum.name);
+    })
+    $scope.options = options;
+  }
+
   $scope.selectFilter();
 })
 
 //directive for displaying chart
 .directive("myChart", function($window) {
   return {
-    restrict: "EA",
+    restrict: "dEA",
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs) {
       scope.$watchGroup(['data'], function() {
         // remove any previous charts
+
         d3.selectAll('svg').remove();
         var data = scope.data;
         var contribType = '';
@@ -144,7 +167,7 @@ angular.module('poliviz.committeeController', [])
           var force = d3.layout.force()
               .nodes(data)
               .size([width, height])
-              .gravity(.02)
+              .gravity(0)
               .charge(0)
               .on("tick", tick)
               .start();
@@ -227,16 +250,16 @@ angular.module('poliviz.committeeController', [])
 
           function tick(e) {
 
-            var k = .2 * e.alpha;
+            var k = .1 * e.alpha;
 
             data.forEach(function(o, i) {
               var coords = stateHash[o.state] || {long: 10, lat: 10};
-              o.y += ((coords.lat || 10) - o.y) * k;
-              o.x += ((coords.long || 10) - o.x) * k;
+              o.y += ((coords.lat || 0) - o.y) * k;
+              o.x += ((coords.long || 0) - o.x) * k;
             });
 
             circles
-                .each(collide(.5))
+                .each(collide(.6))
                 .attr("cx", function(d) { return d.x; })
                 .attr("cy", function(d) { return d.y; });          
           }
@@ -255,7 +278,6 @@ angular.module('poliviz.committeeController', [])
             .html(function(d) {
               if(scope.contrib === 'ALL') {
                 var htmlString = "<h5>" + d['name'] + "</h5> <div class='miniQuote'> Total Raised:  $" + convertCurrency(d[contribType]) + "</div>"
-                console.log(convertCurrency(d['pac$']));
                 if(convertCurrency(d['pac$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div>";
                 }
@@ -276,15 +298,16 @@ angular.module('poliviz.committeeController', [])
 
           circles.call(tip);
 
-          d3.selectAll('circle').on("mouseover", function(d) {
+          d3.selectAll('circle').on('mouseover', function(d) {
               tip.show(d)
                 .style('opacity', 0.8);
             })
             .on('mouseout', function(d) {
               tip.hide(d);
             })
-            .on('click', function(d) {
-              scope.id = d.id;
+            .on('dblclick', function(d) {
+              // scope.id = d.id;
+              scope.name = d.name;
               if (d.party) {
                 scope.group = 'CAND'
               } else {
