@@ -77,6 +77,7 @@ angular.module('poliviz.committeeController', [])
             return d.cycle === +$scope.cycle;
           });
         }
+
       });
   };
 
