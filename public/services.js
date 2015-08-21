@@ -39,21 +39,52 @@ angular.module('poliviz.services', [])
 	};
 })
 
+// This doens't currently work
+// .factory('indCandidateData', function($http){ 
+// 	return { 
+// 		getData: function(candName){ 
+// 			console.log(candName)
+// 			return $http ({ 
+// 				method: 'POST', 
+// 				data: {"candName": candName},
+// 				url: '/indCandidateData'
+// 			}).then(function(resp){ 
+// 				return resp.data;
+// 			})
+// 		}
+// 	};
+// })
+
+// 
+
 // Get data from all contributors
-.factory('dataRetrieval', function($http){
+.factory('contributorsCandidatesData', function($http){
 
-	var contributorsData;
-	var candidateData;
-	
 	return { 
+		getContributors: function(){ 
+			return $http ({ 
+				method: 'GET', 
+				url: '/contributors'
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		},
 
-		// This only happens once
+
+		getContributor: function(contributor){ 
+			return $http ({ 
+				method: 'GET', 
+				url: '/contributors/' + contributor
+			}).then(function(resp){ 
+				return resp.data;
+			})
+		},
+
 		getCandidates: function(){ 
 			return $http ({ 
 				method: 'GET', 
 				url: '/candidates'
-			}).then(function(resp){
-				candidateData = resp.data; 
+			}).then(function(resp){ 
 				return resp.data;
 			})
 		},
@@ -65,54 +96,6 @@ angular.module('poliviz.services', [])
 			}).then(function(resp){ 
 				return resp.data;
 			})
-		},
-			
-		// This only happens once
-		getContributors: function(){ 
-			return $http ({ 
-				method: 'GET', 
-				url: '/contributors'
-			}).then(function(resp){ 
-				contributorsData = resp.data;
-				return resp.data;
-			})
-		},
-
-		getContributor: function(contributor){ 
-			return $http ({ 
-				method: 'GET', 
-				url: '/contributors/' + contributor
-			}).then(function(resp){ 
-				return resp.data;
-			})
-		},
-
-		candidate: function(name) {
-			if (!candidateData) return;
-
-			for (var i = 0; i < candidateData.length; i++) {
-				if (candidateData[i].name === name) {
-					return candidateData[i].id;
-				}
-			}
-		},
-
-		contributor: function(name) {
-			if (!contributorsData) return;
-
-			for (var i = 0; i < contributorsData.length; i++) {
-				if (contributorsData[i].name === name) {
-					return contributorsData[i].id;
-				}
-			}
-		},
-
-		getCandidateData: function() {
-			return candidateData;
-		},
-
-		getContributorData: function() {
-			return contributorsData;
 		}
 	};
 })
