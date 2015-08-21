@@ -1,4 +1,13 @@
 # 2010 data set
+LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/08/cn.txt' INTO TABLE candidates FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2008';
+
+LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/08/cm.txt' INTO TABLE contributors FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2008';
+
+LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/08/itpas2.txt' INTO TABLE contributions  FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2008';
+
+LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/08/webl.txt' INTO TABLE finances FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2008';
+
+# 2010 data set
 LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/10/cn.txt' INTO TABLE candidates FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2010';
 
 LOAD DATA LOCAL INFILE 'server/db/dbRaw/data/10/cm.txt' INTO TABLE contributors FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' SET cycle = '2010';
