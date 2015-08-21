@@ -108,12 +108,26 @@ angular.module('poliviz.committeeController', [])
           .attr("width", width)
           .attr("height", height);
         
-        var img = d3.select("svg").append("svg:image")
+        var lower48 = d3.select("svg").append("svg:image")
             .attr("xlink:href", "assets/us_map.svg")
             .attr("width", width)
             .attr("height", height)
             // .attr("transform", scale(2))
             .attr("class","bg");
+
+        var alaska = d3.select("svg").insert("svg:image")
+            .attr("xlink:href", "assets/alaska.svg")
+            .attr("width", 300)
+            .attr("height", 300)
+            .attr("y", -200)
+            .attr("y", 500);
+
+        var hawaii = d3.select("svg").insert("svg:image")
+            .attr("xlink:href", "assets/hawaii.svg")
+            .attr("width", 100)
+            .attr("height", 100)
+            .attr("x", 275)
+            .attr("y", 600);
 
         // NOTE: move this into a factory? 
         d3.csv('committee/capitals.csv', function(error, capitals) {
@@ -174,7 +188,7 @@ angular.module('poliviz.committeeController', [])
                   var maxp = 30;
                   var minv = Math.pow(1, .5);
                   var maxv = Math.pow(largestContribution, .5);
-                  var scale = (maxv-minv) / (maxp-minp);
+                  var scale = (maxv-minv) / (maxp-minp) * 2;
                   return (Math.pow(value, .5)-minv) / scale + minp;
                 }
                 d.radius = radius(d[contribType]);
