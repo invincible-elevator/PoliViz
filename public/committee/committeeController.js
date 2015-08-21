@@ -22,7 +22,8 @@ angular.module('poliviz.committeeController', [])
   $scope.id = undefined;
 
   // filters the data based on party affiliation
-  $scope.selectFilter = function () {
+  var lastData;
+  $scope.updateData = function () {
 
     // set the request to be made based on scope parameters
     var request;
@@ -51,35 +52,39 @@ angular.module('poliviz.committeeController', [])
     }
 
     $scope.title = formating.name($scope.name);
-
     request($scope.id)
       .then(function(data){
-
-        $scope.data = data;
-        setSearchOptions();
-        if ($scope.partyAffil !== "ALL") {
-          $scope.data = $scope.data.filter(function(d){
-            return d.party === $scope.partyAffil;
-          });
-        }
-        if ($scope.candOffice !== "ALL") {
-          $scope.data = $scope.data.filter(function(d){
-            return d.position === $scope.candOffice;
-          });
-        }
-        if ($scope.candState !== "ALL") {
-          $scope.data = $scope.data.filter(function(d){
-            return d.state === $scope.candState;
-          });
-        }
-        if ($scope.cycle !== "ALL") {
-          $scope.data = $scope.data.filter(function(d){
-            return d.cycle === +$scope.cycle;
-          });
-        }
-
+        lastData = data;
+        $scope.selectFilter();
       });
+
   };
+
+  $scope.selectFilter = function () {
+
+    $scope.data = lastData;
+    setSearchOptions();
+    if ($scope.partyAffil !== "ALL") {
+      $scope.data = $scope.data.filter(function(d){
+        return d.party === $scope.partyAffil;
+      });
+    }
+    if ($scope.candOffice !== "ALL") {
+      $scope.data = $scope.data.filter(function(d){
+        return d.position === $scope.candOffice;
+      });
+    }
+    if ($scope.candState !== "ALL") {
+      $scope.data = $scope.data.filter(function(d){
+        return d.state === $scope.candState;
+      });
+    }
+    if ($scope.cycle !== "ALL") {
+      $scope.data = $scope.data.filter(function(d){
+        return d.cycle === +$scope.cycle;
+      });
+    }
+  }
 
   var setSearchOptions = function() {
 
@@ -97,7 +102,7 @@ angular.module('poliviz.committeeController', [])
     $scope.options = options;
   }
 
-  $scope.selectFilter();
+  $scope.updateData();
 })
 
 //directive for displaying chart
@@ -106,10 +111,10 @@ angular.module('poliviz.committeeController', [])
     restrict: "dEA",
     // template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs){
-        
+
       var width = 1050;
       var height = 800;
-      
+
       var svg = d3.select('my-chart').append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -135,8 +140,6 @@ angular.module('poliviz.committeeController', [])
           .attr("height", 100)
           .attr("x", 275)
           .attr("y", 600);
-
-      console.log('running once');
 
       scope.$watchGroup(['data'], function() {
 
@@ -378,7 +381,7 @@ angular.module('poliviz.committeeController', [])
               } else {
                 scope.group = 'Contributions'
               }
-              scope.selectFilter();
+              scope.updateData();
             });
         });
 
