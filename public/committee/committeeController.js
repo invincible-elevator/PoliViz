@@ -95,8 +95,10 @@ angular.module('poliviz.committeeController', [])
           return b[contribType] - a[contribType];
         });
 
-        var height = 800;
+
+
         var width = 1050;
+        var height = 800;
         //varibles to move datapoint to new line
         var yCounter = 10;
         var xCounter = 1;
@@ -106,6 +108,13 @@ angular.module('poliviz.committeeController', [])
           .attr("width", width)
           .attr("height", height);
         
+        var img = d3.select("svg").append("svg:image")
+            .attr("xlink:href", "assets/us_map.svg")
+            .attr("width", width)
+            .attr("height", height)
+            // .attr("transform", scale(2))
+            .attr("class","bg");
+
         // NOTE: move this into a factory? 
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
@@ -113,8 +122,8 @@ angular.module('poliviz.committeeController', [])
           var stateHash = {}
           capitals.forEach(function(capital) {
             var coords = stateHash[capital.abbrev] = {};
-            coords.lat = (-Number(capital.latitude) + 52) * 25;
-            coords.long = (Number(capital.longitude) + 140) * 14;
+            coords.lat = (-Number(capital.latitude) + 53) * 26;
+            coords.long = (Number(capital.longitude) + 122) * 20;
           })
 
           // Don't move this around;
