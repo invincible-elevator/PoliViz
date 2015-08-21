@@ -15,7 +15,7 @@ angular.module('poliviz.homepageController', [])
     dataSets.getdataSets(name)
       .then(function(data) {
         if (data === 'Error') {
-          console.error('Awesome, an error :)')
+
         }
         $scope.data = data;
         // $scope.name = data[0].name.split('_').join(' ');      

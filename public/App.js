@@ -4,8 +4,7 @@ angular.module('poliviz', [
 	'poliviz.committeeController',
 	'poliviz.homepageController',
 	'poliviz.services',
-	'ngSanitize',
-	'autocomplete'
+	'ngSanitize'
 ])
 
 .config(function($urlRouterProvider, $stateProvider){
