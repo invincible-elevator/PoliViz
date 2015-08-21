@@ -188,7 +188,7 @@ angular.module('poliviz.committeeController', [])
                   var maxp = 30;
                   var minv = Math.pow(1, .5);
                   var maxv = Math.pow(largestContribution, .5);
-                  var scale = (maxv-minv) / (maxp-minp) * 2;
+                  var scale = (maxv-minv) / (maxp-minp) * 1.75;
                   return (Math.pow(value, .5)-minv) / scale + minp;
                 }
                 d.radius = radius(d[contribType]);
