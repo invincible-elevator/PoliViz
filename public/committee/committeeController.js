@@ -47,7 +47,9 @@ angular.module('poliviz.committeeController', [])
 
     request($scope.id)
       .then(function(data){
+
         $scope.data = data;
+        setSearchOptions();
         if ($scope.partyAffil !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
             return d.party === $scope.partyAffil;
@@ -65,13 +67,30 @@ angular.module('poliviz.committeeController', [])
         }
       });
   };
+
+  var setSearchOptions = function() {
+
+    var data;
+    if ($scope.group === "CAND") {
+      data = dataRetrieval.getCandidateData();
+    } else {
+      data = dataRetrieval.getContributorData();
+    }
+
+    var options = [];
+    data.forEach(function(datum) {
+      options.push(datum.name);
+    })
+    $scope.options = options;
+  }
+
   $scope.selectFilter();
 })
 
 //directive for displaying chart
 .directive("myChart", function($window) {
   return {
-    restrict: "EA",
+    restrict: "dEA",
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs) {
       scope.$watchGroup(['data'], function() {
