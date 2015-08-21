@@ -60,11 +60,6 @@ module.exports = function(grunt) {
                    'mysql --local-infile=1 -u root PoliticalData < server/db/SQL/setup.sql',
                   ].join('&&')
       },
-      sqlInstall2: {
-        command: [ 'mysql -u root < server/db/SQL/schema2.sql',
-                   'mysql --local-infile=1 -u root PoliticalData < server/db/SQL/setup2.sql',
-                  ].join('&&')
-      },
       getData: {
         command: 'python server/db/dbRaw/ftp.py'
       }
@@ -79,10 +74,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('download',
     ['shell:getData']
-  );
-
-  grunt.registerTask('sqlTest',
-    ['shell:sqlInstall2']
   );
 
   grunt.registerTask('install',
