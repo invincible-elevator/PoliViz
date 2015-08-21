@@ -12,15 +12,15 @@ angular.module('poliviz', [
 	$urlRouterProvider.otherwise("/");
 
 	$stateProvider
-		.state('homepage',{
-			url: '/',
-			templateUrl: './homepage/homepageTemplate.html',
-			controller: 'homepageController'
-		})
 		.state('committee', {
-			url: '/committee',
+			url: '/',
 			templateUrl: './committee/committeeTemplate.html',
 			controller: 'committeeController'
+		})
+		.state('homepage',{
+			url: '/factcheck',
+			templateUrl: './homepage/homepageTemplate.html',
+			controller: 'homepageController'
 		});
 
 })

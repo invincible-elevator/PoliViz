@@ -159,8 +159,8 @@ angular.module('poliviz.committeeController', [])
           var stateHash = {}
           capitals.forEach(function(capital) {
             var coords = stateHash[capital.abbrev] = {};
-            coords.lat = (-Number(capital.latitude) + 53) * 26;
-            coords.long = (Number(capital.longitude) + 122) * 20;
+            coords.lat = (-Number(capital.latitude) + 55) * 23;
+            coords.long = (Number(capital.longitude) + 125) * 18;
           })
 
           // Don't move this around;
