@@ -76,7 +76,6 @@ module.exports = function(grunt) {
     ['shell:getData']
   );
 
-
   grunt.registerTask('install',
     ['shell:install',
      'shell:sqlInstall']

@@ -46,12 +46,13 @@ def simplifyFile(date, fileType):
 
     # CANDIDATE finance information file 
       # 0 is candidate ID
+      # 5 is total receipts
       # 11 is candidate contributions 
       # 17 is individual contributions 
       # 25 is PAC contributions 
       # 26 is party contributions 
     if fileType == 'webl':
-      n.write(data[0] + '|' + data[11] + '|' + data[17] + '|' + data[25] + '|' + data[26] + '\n')
+      n.write(data[0] + '|' + data[5] + '|' + data[11] + '|' + data[17] + '|' + data[25] + '|' + data[26] + '\n')
 
   f.close()
   os.remove(oldFileName)

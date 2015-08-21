@@ -5,7 +5,7 @@ from ftplib import FTP
 
 
 dataPath = 'server/db/dbRaw/data'
-years = ['10', '12', '14', '16']
+years = ['08', '10', '12', '14', '16']
 files = ['cn','cm','webl','pas2'] # types of files we need
 
 
