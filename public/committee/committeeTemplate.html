@@ -1,6 +1,5 @@
 <div>
     <nav-bar></nav-bar>
-    <h2>Campaign Contributions 2015 - 2016 </h2>
     <div class='filters'>
 
       <select ng-model="cycle" class="form-control" ng-change="selectFilter()">
@@ -13,8 +12,8 @@
       
       <form class="col-md-6">
         <select ng-model="group" class="form-control" ng-change="selectFilter()">
-          <option value="CAND">Candidates</option>
-          <option value="CONTRIB">Contributors</option>
+          <option value="Candidates">Candidates</option>
+          <option value="Contributions">Contributors</option>
         </select>
       </form>
 
@@ -62,7 +61,8 @@
     </div>
     <p class='text-center'>Data from fec.gov</p>
 
+    <h2 ng-model='name'> {{name}} {{group}} </h2>
     <div class="center-block cont_chart center">
         <my-chart></my-chart>
-    </div>
+  </div>
 </div>

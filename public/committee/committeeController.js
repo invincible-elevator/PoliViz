@@ -1,5 +1,5 @@
 angular.module('poliviz.committeeController', [])
-.controller('committeeController', function($scope, dataRetrieval){
+.controller('committeeController', function($scope, dataRetrieval, formating){
   
   dataRetrieval.getContributors();
   dataRetrieval.getCandidates();
@@ -17,7 +17,7 @@ angular.module('poliviz.committeeController', [])
   $scope.partyAffil = "ALL";
   $scope.candOffice = "ALL";
   $scope.candState = "ALL";
-  $scope.group = "CAND";
+  $scope.group = "Candidates";
 
   $scope.id = undefined;
 
@@ -26,7 +26,7 @@ angular.module('poliviz.committeeController', [])
 
     // set the request to be made based on scope parameters
     var request;
-    if ($scope.group === "CAND") {
+    if ($scope.group === "Candidates") {
 
       $scope.id = dataRetrieval.candidate($scope.name);
 
@@ -45,6 +45,8 @@ angular.module('poliviz.committeeController', [])
         request = dataRetrieval.getContributor;
       }
     }
+
+    $scope.name = formating.name($scope.name);
 
     request($scope.id)
       .then(function(data){
@@ -77,7 +79,7 @@ angular.module('poliviz.committeeController', [])
   var setSearchOptions = function() {
 
     var data;
-    if ($scope.group === "CAND") {
+    if ($scope.group === "Candidates") {
       data = dataRetrieval.getCandidateData();
     } else {
       data = dataRetrieval.getContributorData();
@@ -317,9 +319,9 @@ angular.module('poliviz.committeeController', [])
               // scope.id = d.id;
               scope.name = d.name;
               if (d.party) {
-                scope.group = 'CAND'
+                scope.group = 'Candidates'
               } else {
-                scope.group = 'CONTRIB'
+                scope.group = 'Contributions'
               }
               scope.selectFilter();
             });
