@@ -1,6 +1,6 @@
 angular.module('poliviz.committeeController', [])
 .controller('committeeController', function($scope, dataRetrieval, formating){
-  
+
   dataRetrieval.getContributors();
   dataRetrieval.getCandidates();
 
@@ -143,7 +143,7 @@ angular.module('poliviz.committeeController', [])
         var legendOffset = 30;
 
         var colorData;
-        if (scope.group === 'Candidates') {
+        if (scope.other === 'Candidates') {
           colorData = [{name: 'Republican', color: 'red'},
                        {name: 'Democrat', color: 'blue'},
                        {name: 'Independent', color: 'green'}];
@@ -153,9 +153,9 @@ angular.module('poliviz.committeeController', [])
                        {name: 'Membership organization', color: '#F07818'},
                        {name: 'Trade association', color: '#78C0A8'},
                        {name: 'Cooperative', color: '#FCEBB6'},
-                       {name: 'Corporation without capital stock', color: '#C07890'},]
+                       {name: 'Corporation without capital stock', color: 'green'},]
         }
-        
+
         var legend = svg.selectAll('.legend')
             .data(colorData)
           .enter()
@@ -167,7 +167,7 @@ angular.module('poliviz.committeeController', [])
             .attr('height', legendRectSize)
             .attr('fill', function(d) {
               return d.color;
-            }) 
+            })
             .attr('x', legendRectSize + legendOffset)
             .attr('y', function(d, i) {
               return (legendRectSize + legendSpacing) * i;
@@ -201,7 +201,7 @@ angular.module('poliviz.committeeController', [])
             .attr("x", 275)
             .attr("y", 600);
 
-        // NOTE: move this into a factory? 
+        // NOTE: move this into a factory?
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
           // create states hash with lat and long of capital abbrevs;
@@ -227,22 +227,22 @@ angular.module('poliviz.committeeController', [])
               .style('fill', function(d) { //color bubbles based on party affiliation
                 if(d["industry"] === "C"){
                   return '#5E412F';
-                } 
+                }
                 if(d["industry"] === "L"){
                   return '#F0A830';
-                } 
+                }
                 if(d["industry"] === "M"){
                   return '#F07818';
-                } 
+                }
                 if(d["industry"] === "T"){
                   return '#78C0A8';
-                } 
+                }
                 if(d["industry"] === "V"){
                   return '#FCEBB6';
-                } 
+                }
                 if(d["industry"] === "W"){
-                  return '#C07890';
-                } 
+                  return 'green';
+                }
                 if (d["party"] === "REP") {
                   return 'red';
                 } else if (d["party"] === "DEM") {
@@ -252,7 +252,7 @@ angular.module('poliviz.committeeController', [])
                 }
               })
               .attr('r', function(d) { //set max and min bubble size for visual purposes
-                var radius = function(value) { 
+                var radius = function(value) {
                   if (value < 50) {
                     value = 50;
                   }
@@ -310,7 +310,7 @@ angular.module('poliviz.committeeController', [])
             circles
                 .each(collide(.6))
                 .attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });          
+                .attr("cy", function(d) { return d.y; });
           }
 
 
@@ -330,8 +330,6 @@ angular.module('poliviz.committeeController', [])
                 if(convertCurrency(d['pac$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div>";
                 }
-
-
                 if(convertCurrency(d['party$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['party$']) + "</div>";
                 }
