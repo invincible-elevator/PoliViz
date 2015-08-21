@@ -153,7 +153,7 @@ angular.module('poliviz.committeeController', [])
                        {name: 'Membership organization', color: '#F07818'},
                        {name: 'Trade association', color: '#78C0A8'},
                        {name: 'Cooperative', color: '#FCEBB6'},
-                       {name: 'Corporation without capital stock', color: '#C07890'},]
+                       {name: 'Corporation without capital stock', color: 'green'},]
         }
 
         var legend = svg.selectAll('.legend')
@@ -241,7 +241,7 @@ angular.module('poliviz.committeeController', [])
                   return '#FCEBB6';
                 }
                 if(d["industry"] === "W"){
-                  return '#C07890';
+                  return 'green';
                 }
                 if (d["party"] === "REP") {
                   return 'red';
@@ -330,8 +330,6 @@ angular.module('poliviz.committeeController', [])
                 if(convertCurrency(d['pac$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> PAC Contributions:  $" + convertCurrency(d['pac$']) + "</div>";
                 }
-
-
                 if(convertCurrency(d['party$']) !== 'NaN') {
                   htmlString += "<div class='miniQuote'> Political Partry Contributions:  $" + convertCurrency(d['party$']) + "</div>";
                 }
