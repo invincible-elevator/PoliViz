@@ -117,6 +117,7 @@ angular.module('poliviz.services', [])
 	};
 })
 
+// formate a name so that it starts with capitals and has first name first
 .factory('formating', function() {
 	return {
 		name: function(name) {
@@ -131,11 +132,11 @@ angular.module('poliviz.services', [])
 
 			var words = (first + ' ' + (last || '')).split(' ');
 			var result = words.reduce(function(total, curr) {
+				if (curr.length === 1) {
+					curr = curr + '.';
+				}
 				return total + ' ' + curr.charAt(0).toUpperCase() + curr.slice(1);
-			}, '')
-
-			// last = last.charAt(0).toUpperCase() + last.slice(1);
-			// first = first.charAt(0).toUpperCase() + first.slice(1);
+			}, '');
 
 			return result;
 		},

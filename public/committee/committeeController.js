@@ -31,8 +31,10 @@ angular.module('poliviz.committeeController', [])
       $scope.id = dataRetrieval.candidate($scope.name);
 
       if (!$scope.id) {
+        $scope.other = "Candidates";
         request = dataRetrieval.getCandidates;
       } else {
+        $scope.other = "Contributors";
         request = dataRetrieval.getCandidate;
       }
     } else {
@@ -40,13 +42,15 @@ angular.module('poliviz.committeeController', [])
       $scope.id = dataRetrieval.contributor($scope.name);
 
       if (!$scope.id) {
+        $scope.other = "Contributors";
         request = dataRetrieval.getContributors;
       } else {
+        $scope.other = "Candidates";
         request = dataRetrieval.getContributor;
       }
     }
 
-    $scope.name = formating.name($scope.name);
+    $scope.title = formating.name($scope.name);
 
     request($scope.id)
       .then(function(data){
@@ -102,8 +106,8 @@ angular.module('poliviz.committeeController', [])
     template: "<svg width='850' height='200'></svg>",
     link: function(scope, elem, attrs) {
       scope.$watchGroup(['data'], function() {
-        // remove any previous charts
 
+        // remove any previous charts
         d3.selectAll('svg').remove();
         var data = scope.data;
         var contribType = '';
@@ -126,8 +130,6 @@ angular.module('poliviz.committeeController', [])
           return b[contribType] - a[contribType];
         });
 
-
-
         var width = 1050;
         var height = 800;
         //varibles to move datapoint to new line
@@ -138,7 +140,36 @@ angular.module('poliviz.committeeController', [])
         var svg = d3.select("my-chart").append("svg")
           .attr("width", width)
           .attr("height", height);
-        
+
+        // create legend
+        var legendRectSize = 200;
+        var legendSpacing = 30;
+        var colorData = [{name: 'REP', color: 'red'},
+                         {name: 'DEM', color: 'blue'}]
+        var legend = svg.selectAll('.legend')
+          .data(colorData)
+          .enter()
+          .append('g')
+          .attr('class', 'legend')
+          .attr('transform', function(d, i) {
+            var height = legendRectSize + legendSpacing;
+            var offset =  height * colorData.length / 2;
+            var horz = -2 * legendRectSize;
+            var vert = i * height - offset;
+            return 'translate(' + horz + ',' + vert + ')';
+          });
+
+        legend.append('rect')
+          .attr('width', legendRectSize)
+          .attr('height', legendRectSize)
+          .style('fill', 'red')
+          .style('stroke', 'blue');
+
+        legend.append('text')
+          .attr('x', legendRectSize + legendSpacing)
+          .attr('y', legendRectSize - legendSpacing)
+          .text(function(d) { return d.name; });
+
         var lower48 = d3.select("svg").append("svg:image")
             .attr("xlink:href", "assets/us_map.svg")
             .attr("width", width)
