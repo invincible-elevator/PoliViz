@@ -12,6 +12,7 @@ angular.module('poliviz.committeeController', [])
                    "VT","VI","VA","WA","WV","WI","WY"];
 
   // Sets the default select/option
+  $scope.cycle = "2016";
   $scope.contrib = "ALL";
   $scope.partyAffil = "ALL";
   $scope.candOffice = "ALL";
@@ -63,6 +64,11 @@ angular.module('poliviz.committeeController', [])
         if ($scope.candState !== "ALL") {
           $scope.data = $scope.data.filter(function(d){
             return d.state === $scope.candState;
+          });
+        }
+        if ($scope.cycle !== "ALL") {
+          $scope.data = $scope.data.filter(function(d){
+            return d.cycle === +$scope.cycle;
           });
         }
       });
