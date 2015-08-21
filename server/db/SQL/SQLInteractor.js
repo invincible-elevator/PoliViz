@@ -11,19 +11,7 @@ connection.connect();
 
 // gets candidate information
 var getCandidates = function(callback){ 
-  var queryString = "select candidate.CAND_ID id, \
-                            candidate.CAND_NAME name, \
-                            candidate.CAND_PTY_AFFILIATION party, \
-                            candidate.CAND_OFFICE position, \
-                            candidate.CAND_ST state, \
-                            CandFinance.TTL_RECEIPTS total$, \
-                            CandFinance.OTHER_POL_CMTE_CONTRIB pac$, \
-                            CandFinance.POL_PTY_CONTRIB party$, \
-                            CandFinance.TTL_INDIV_CONTRIB individual$, \
-                            CandFinance.CAND_CONTRIB candidate$ \
-                    from candidate \
-                    inner join CandFinance \
-                    on candidate.CAND_ID = CandFinance.CAND_ID";
+  var queryString = "select * from candidateInfo";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);
@@ -33,12 +21,14 @@ var getCandidates = function(callback){
 
 //individual candidate data
 var getCandidateById = function(candId, callback){
-  var queryString = "select CMTE_ID id, \
-                            CMTE_NM name, \
-                            ORG_TP industry, \
-                            CMTE_st state, \
-                            SUM(TRANSACTION_AMT) as total$ \
-                     FROM joinedData WHERE CAND_ID = '" + candId + "' group by CMTE_NM;";
+  // var queryString = "select c.id id, c.name name, c.type industry, c.state state, c.cyle, SUM(contrib.amount) as total$ \
+  //                    from contributions contrib inner join contributors c \
+  //                    where contrib.cand_id = '" + candId + "' and contrib.cmte_id = c.id and contrib.cycle = c.cycle \
+  //                    group by c.name;";
+  var queryString = "select * from candidateDetail where cand_id = '" + candId +"'";
+  var queryString = "select contributionHelper.*, candidates.name from contributionHelper, candidates \
+                      where contributionHelper.cand_id = candidates.id and candidates.id='" +candId+"' \
+                      group by contributionHelper.cycle, contributionHelper.cmte_id;";
 
   connection.query(queryString, function(err, results){
     if(err) console.log(err);

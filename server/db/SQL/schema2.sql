@@ -12,8 +12,7 @@ CREATE TABLE `contributors` (
   `name` varchar(200),
   `state` varchar(2),
   `type` varchar(1),
-  `cycle` int,
-  PRIMARY KEY(`id`)
+  `cycle` int
 );
 
 /* Contributions to Candidates (cont_to_cand) 
@@ -36,8 +35,7 @@ CREATE TABLE `candidates`  (
   `party` varchar(3),
   `state` varchar(2),
   `office` varchar(1),
-  `cycle` int,
-  PRIMARY KEY(`id`)
+  `cycle` int
 );
 
 
@@ -51,7 +49,6 @@ CREATE TABLE `finances` (
   `individualMoney` DECIMAL(14,2),
   `pacMoney` DECIMAL(14,2),
   `partyMoney` DECIMAL(14,2),
-  `cycle` int,
-  PRIMARY KEY(`id`)
+  `cycle` int
 );
 
