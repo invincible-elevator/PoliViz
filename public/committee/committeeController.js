@@ -103,12 +103,45 @@ angular.module('poliviz.committeeController', [])
 .directive("myChart", function($window) {
   return {
     restrict: "dEA",
-    template: "<svg width='850' height='200'></svg>",
-    link: function(scope, elem, attrs) {
+    // template: "<svg width='850' height='200'></svg>",
+    link: function(scope, elem, attrs){
+        
+      var width = 1050;
+      var height = 800;
+      
+      var svg = d3.select('my-chart').append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+
+      var lower48 = d3.select("svg").append("svg:image")
+          .attr("xlink:href", "assets/us_map.svg")
+          .attr("width", width)
+          .attr("height", height)
+          // .attr("transform", scale(2))
+          .attr("class","bg");
+
+      var alaska = d3.select("svg").insert("svg:image")
+          .attr("xlink:href", "assets/alaska.svg")
+          .attr("width", 300)
+          .attr("height", 300)
+          .attr("y", -200)
+          .attr("y", 500);
+
+      var hawaii = d3.select("svg").insert("svg:image")
+          .attr("xlink:href", "assets/hawaii.svg")
+          .attr("width", 100)
+          .attr("height", 100)
+          .attr("x", 275)
+          .attr("y", 600);
+
+      console.log('running once');
+
       scope.$watchGroup(['data'], function() {
 
         // remove any previous charts
-        d3.selectAll('svg').remove();
+        d3.selectAll('.cir').remove();
+        d3.selectAll('.legend').remove();
         var data = scope.data;
         var contribType = '';
 
@@ -130,12 +163,7 @@ angular.module('poliviz.committeeController', [])
           return b[contribType] - a[contribType];
         });
 
-        var width = 1050;
-        var height = 800;
         var largestContribution = data[0][contribType];
-        var svg = d3.select('my-chart').append('svg')
-          .attr('width', width)
-          .attr('height', height);
 
         // create legend
         var legendRectSize = 15;
@@ -180,26 +208,12 @@ angular.module('poliviz.committeeController', [])
             })
           .text(function(d) { return d.name; });
 
-        var lower48 = d3.select("svg").append("svg:image")
-            .attr("xlink:href", "assets/us_map.svg")
-            .attr("width", width)
-            .attr("height", height)
-            // .attr("transform", scale(2))
-            .attr("class","bg");
-
-        var alaska = d3.select("svg").insert("svg:image")
-            .attr("xlink:href", "assets/alaska.svg")
-            .attr("width", 300)
-            .attr("height", 300)
-            .attr("y", -200)
-            .attr("y", 500);
-
-        var hawaii = d3.select("svg").insert("svg:image")
-            .attr("xlink:href", "assets/hawaii.svg")
-            .attr("width", 100)
-            .attr("height", 100)
-            .attr("x", 275)
-            .attr("y", 600);
+        // var lower48 = d3.select("svg").append("svg:image")
+        //     .attr("xlink:href", "assets/us_map.svg")
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     // .attr("transform", scale(2))
+        //     .attr("class","bg");
 
         // NOTE: move this into a factory?
         d3.csv('committee/capitals.csv', function(error, capitals) {
@@ -251,6 +265,7 @@ angular.module('poliviz.committeeController', [])
                   return 'green';
                 }
               })
+              .attr('class', 'cir')
               .attr('r', function(d) { //set max and min bubble size for visual purposes
                 var radius = function(value) {
                   if (value < 50) {
