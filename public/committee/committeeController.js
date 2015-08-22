@@ -99,7 +99,6 @@ angular.module('poliviz.committeeController', [])
     data = data.filter(function(datum) {
       return datum.cycle === +$scope.cycle;
     })
-    console.log(data)
 
     var options = [];
     data.forEach(function(datum) {
@@ -246,7 +245,7 @@ angular.module('poliviz.committeeController', [])
           console.log(yearslider.value())
         });
 
-        // NOTE: move this into a factory? 
+        // NOTE: move this into a factory?
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
           // create states hash with lat and long of capital abbrevs;
