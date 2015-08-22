@@ -2,7 +2,6 @@ angular.module('poliviz', [
 	'ui.router',
 	'ui.bootstrap',
 	'poliviz.committeeController',
-	'poliviz.homepageController',
 	'poliviz.services',
 	'ngSanitize',
 	'autocomplete'
@@ -26,7 +25,7 @@ angular.module('poliviz', [
 })
 
 .controller('AppController', function($scope){
-	
+
 })
 
 .directive('navBar', function(){

@@ -242,7 +242,6 @@ angular.module('poliviz.committeeController', [])
           var evt = document.createEvent("HTMLEvents");
           evt.initEvent("change", false, true);
           document.getElementById('yearsliderhidden').dispatchEvent(evt);
-          console.log(yearslider.value())
         });
 
         // NOTE: move this into a factory?
