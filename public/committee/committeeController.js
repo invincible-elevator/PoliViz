@@ -58,6 +58,7 @@ angular.module('poliviz.committeeController', [])
         $scope.selectFilter();
       });
 
+    $scope.name = '';
   };
 
   $scope.selectFilter = function () {
