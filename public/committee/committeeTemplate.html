@@ -2,7 +2,7 @@
     <nav-bar></nav-bar>
     <div class='filters'>
 
-      <form class="col-md-3">
+<!--       <form class="col-md-3">
         <select ng-model="cycle" class="form-control" ng-change="selectFilter()">
           <option value="2016">2016</option>
           <option value="2014">2014</option>
@@ -10,10 +10,17 @@
           <option value="2010">2010</option>
           <option value="2008">2008</option>
         </select>
+<<<<<<< HEAD
       </form>
 
       <form class="col-md-3">
         <select ng-model="group" class="form-control" ng-change="updateData()">
+=======
+      </form> -->
+      
+      <form class="col-md-6">
+        <select ng-model="group" class="form-control" ng-change="selectFilter()">
+>>>>>>> Add a slider bar for changing years
           <option value="Candidates">Candidates</option>
           <option value="Contributions">Contributors</option>
         </select>
@@ -62,7 +69,13 @@
     </div>
     <p class='text-center'>Data from fec.gov</p>
 
+    <div id="yearsliderholder">
+      <div style="width:50%; display: block; margin: auto;" id="yearslider" ></div>
+      <input type="text" id="yearsliderhidden" ng-model="cycle" ng-change="selectFilter()" style="display:none;"/>
+    </div>
+
     <h2 ng-model='name'>{{title}} {{other}} ({{cycle}})</h2>
+
     <div class="center-block cont_chart center">
         <my-chart></my-chart>
   </div>

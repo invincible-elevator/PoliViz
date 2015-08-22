@@ -149,8 +149,13 @@ angular.module('poliviz.committeeController', [])
       scope.$watchGroup(['data'], function() {
 
         // remove any previous charts
+<<<<<<< HEAD
         d3.selectAll('.cir').remove();
         d3.selectAll('.legend').remove();
+=======
+        d3.selectAll('svg').remove();
+
+>>>>>>> Add a slider bar for changing years
         var data = scope.data;
         var contribType = '';
 
@@ -224,7 +229,27 @@ angular.module('poliviz.committeeController', [])
         //     // .attr("transform", scale(2))
         //     .attr("class","bg");
 
-        // NOTE: move this into a factory?
+        // ADD SLIDER
+
+        d3.selectAll('#yearslider').remove();
+        d3.selectAll('#yearsliderholder').insert("div")
+          .attr('style', 'width:50%; display: block; margin: auto;')
+          .attr('id','yearslider')
+
+        var axis = d3.svg.axis().orient("bottom").ticks(5).tickFormat(d3.format("d"));
+        var yearslider = d3.slider().axis(axis).min(2008).max(2016).step(2).value(scope.cycle);
+
+        d3.select('#yearslider').call(yearslider)
+        .on('click', function() {
+          d3.select('#yearsliderhidden').attr('value',yearslider.value());
+          d3.select('#yearsliderhidden').property('value',yearslider.value());
+          var evt = document.createEvent("HTMLEvents");
+          evt.initEvent("change", false, true);
+          document.getElementById('yearsliderhidden').dispatchEvent(evt);
+          console.log(yearslider.value())
+        });
+
+        // NOTE: move this into a factory? 
         d3.csv('committee/capitals.csv', function(error, capitals) {
 
           // create states hash with lat and long of capital abbrevs;
