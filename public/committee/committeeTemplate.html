@@ -13,13 +13,13 @@
       </form>
 
       <form class="col-md-3">
-        <select ng-model="group" class="form-control" ng-change="selectFilter()">
+        <select ng-model="group" class="form-control" ng-change="updateData()">
           <option value="Candidates">Candidates</option>
           <option value="Contributions">Contributors</option>
         </select>
       </form>
 
-      <form class="col-md-6" ng-submit="selectFilter()">
+      <form class="col-md-6" ng-submit="updateData()">
         <autocomplete ng-model="name" data="options" on-type="updateMovies" attr-placeholder="Enter a Name" click-activation="false"></autocomplete>
       </form>
 
