@@ -159,3 +159,8 @@ circle {
   font-family: 'Fanwood Text', serif;
   font-size: 1em;
 }
+
+.tab {
+  font-weight: bold;
+  font-size: 2em;
+}
