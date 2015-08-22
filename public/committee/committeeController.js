@@ -149,13 +149,9 @@ angular.module('poliviz.committeeController', [])
       scope.$watchGroup(['data'], function() {
 
         // remove any previous charts
-<<<<<<< HEAD
         d3.selectAll('.cir').remove();
         d3.selectAll('.legend').remove();
-=======
-        d3.selectAll('svg').remove();
 
->>>>>>> Add a slider bar for changing years
         var data = scope.data;
         var contribType = '';
 
