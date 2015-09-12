@@ -11,3 +11,5 @@ server/config/config.js
 
 server/db/dbRaw/data/
 *.pyc
+
+server/db/SQL/insert.sql

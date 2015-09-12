@@ -5,7 +5,7 @@ from ftplib import FTP
 
 
 dataPath = 'server/db/dbRaw/data'
-years = ['08', '10', '12', '14', '16']
+years = ['00','02', '04', '06', '08', '10', '12', '14', '16']
 files = ['cn','cm','webl','pas2'] # types of files we need
 
 
@@ -57,3 +57,20 @@ for year in years:
 
 ftp.quit()
 print 'finished importing'
+
+#create SQL statements for inserting into db
+sqlpath = 'server/db/SQL/insert.sql'
+f = open(sqlpath,'wb')
+
+
+for year in years:
+  sqlFiles = [["'server/db/dbRaw/data/"+year+"/cn.txt'", 'candidates'],
+              ["'server/db/dbRaw/data/"+year+"/cm.txt'", 'contributors'],
+              ["'server/db/dbRaw/data/"+year+"/itpas2.txt'", 'contributions'],
+              ["'server/db/dbRaw/data/"+year+"/webl.txt'", 'finances']]
+  sqlYear = "'20" + year + "'"
+  for sqlFile in sqlFiles: 
+    f.write("LOAD DATA LOCAL INFILE " + sqlFile[0] + " INTO TABLE " + sqlFile[1] + " FIELDS TERMINATED BY '|' LINES TERMINATED BY '\\n' SET cycle = " + sqlYear + ";")
+    f.write('\n')
+
+f.close()

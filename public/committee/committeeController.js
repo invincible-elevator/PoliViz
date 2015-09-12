@@ -232,8 +232,8 @@ angular.module('poliviz.committeeController', [])
           .attr('style', 'width:50%; display: block; margin: auto;')
           .attr('id','yearslider')
 
-        var axis = d3.svg.axis().orient("bottom").ticks(5).tickFormat(d3.format("d"));
-        var yearslider = d3.slider().axis(axis).min(2008).max(2016).step(2).value(scope.cycle);
+        var axis = d3.svg.axis().orient("bottom").ticks(9).tickFormat(d3.format("d"));
+        var yearslider = d3.slider().axis(axis).min(2000).max(2016).step(2).value(scope.cycle);
 
         d3.select('#yearslider').call(yearslider)
         .on('click', function() {
