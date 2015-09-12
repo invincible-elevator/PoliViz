@@ -57,6 +57,7 @@ module.exports = function(grunt) {
       },
       sqlInstall: {
         command: [ 'mysql -u root < server/db/SQL/schema.sql',
+                   'mysql --local-infile=1 -u root PoliticalData < server/db/SQL/insert.sql',
                    'mysql --local-infile=1 -u root PoliticalData < server/db/SQL/setup.sql',
                   ].join('&&')
       },
