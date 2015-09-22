@@ -1,6 +1,6 @@
 # PoliViz
 
-  PoliViz is a political data visualization app focusing on campaign contribution/finance information.  [Use PoliViz here!](107.170.232.23)
+  PoliViz is a political data visualization app focusing on campaign contribution/finance information.  [Use PoliViz here!](http://107.170.232.23)
 
   We want to help voters make informed decisions about political candidates by sharing data in an easy to understand way. 
 
